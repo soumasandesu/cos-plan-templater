@@ -1,0 +1,32 @@
+{
+  "name": "gif-switch-meme-gen",
+  "version": "0.1.0",
+  "private": true,
+  "author": "souma",
+  "license": "ISC",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf dist .next docs",
+    "deploy": "git add . && git commit -m 是但啦 && git push origin master"
+  },
+  "dependencies": {
+    "classnames": "^2.5.1",
+    "dom-to-image": "^2.6.0",
+    "file-saver": "^2.0.2",
+    "i18next": "^23.7.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-i18next": "^13.5.0",
+    "react-mapping": "^0.0.1",
+    "react-string-replace": "^0.4.4",
+    "reset-css": "^5.0.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "sass": "^1.69.5",
+    "vite": "^7.3.0"
+  }
+}

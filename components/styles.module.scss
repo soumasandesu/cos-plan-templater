@@ -1,0 +1,15 @@
+.App {
+    .Toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        background: #f0f0f0;
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 3rem;
+    }
+}
+
+.ShowBorders {
+    // 當有呢個 class 時，先顯示 borders
+}

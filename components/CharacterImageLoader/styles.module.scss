@@ -1,0 +1,85 @@
+.CharacterImageLoader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* 交畀內容自己決定大小，方便拖動 */
+    /* width: 100%; */
+    /* height: 100%; */
+    touch-action: none; /* 避免手機上拖動時滾動頁面 */
+
+    > * {
+        display: block;
+    }
+
+    .ShapedCanvas {
+        display: block;
+        position: relative;
+        z-index: 1;
+    }
+
+    .ResizeHandle {
+        position: absolute;
+        right: -8px;
+        bottom: -8px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #f00;
+        cursor: se-resize;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+    }
+
+    &.Selected {
+        z-index: 10;
+    }
+
+    // 只有當父元素有 .ShowBorders class 時先顯示 border
+    &.ShowBorder {
+        border: 2px #a00 dashed;
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .Toolbar {
+        position: absolute;
+        top: calc(100% + 2px);
+        bottom: -36px;
+        width: 100%;
+        max-width: 100%;
+        background: #fcc;
+        border-radius: 0 0 1rem 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.25rem;
+
+        > input[type="file"] {
+            display: inline-block;
+        }
+
+        .RenderModeSelect {
+            padding: 0.25rem 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #fff;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+
+        .DeleteButton {
+            border: none;
+            background: none;
+            cursor: pointer;
+            display: inline-block;
+            padding: 0.5rem;
+        }
+    }
+
+    > .Index {
+        position: absolute;
+        top: calc(50% - 1rem);
+        left: 50%;
+        font-size: 2rem;
+        text-align: center;
+        color: #a00;
+    }
+}
