@@ -193,6 +193,16 @@ export default function TextDisplay({ draggable = true, showBorder = true, id, r
                             className={styles.DeleteButton}
                             onClick={(e) => {
                                 e.stopPropagation();
+                                actions.cloneTextDisplay(id);
+                            }}
+                            title="複製"
+                        >
+                            📋
+                        </button>
+                        <button 
+                            className={styles.DeleteButton}
+                            onClick={(e) => {
+                                e.stopPropagation();
                                 actions.removeTextDisplay(id);
                             }}
                             title="刪除"

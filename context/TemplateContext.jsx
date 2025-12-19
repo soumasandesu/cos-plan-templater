@@ -28,11 +28,13 @@ const ActionTypes = {
     ADD_CHARACTER: "ADD_CHARACTER",
     REMOVE_CHARACTER: "REMOVE_CHARACTER",
     UPDATE_CHARACTER: "UPDATE_CHARACTER",
+    CLONE_CHARACTER: "CLONE_CHARACTER",
     
     // Texts
     ADD_TEXT_DISPLAY: "ADD_TEXT_DISPLAY",
     REMOVE_TEXT_DISPLAY: "REMOVE_TEXT_DISPLAY",
     UPDATE_TEXT_DISPLAY: "UPDATE_TEXT_DISPLAY",
+    CLONE_TEXT_DISPLAY: "CLONE_TEXT_DISPLAY",
     
     // Selection
     SET_SELECTED_ID: "SET_SELECTED_ID",
@@ -93,6 +95,26 @@ function templateReducer(state, action) {
                 selectedId: state.selectedId === removeCharId ? null : state.selectedId
             };
             
+        case ActionTypes.CLONE_CHARACTER:
+            const cloneCharId = action.payload;
+            const charToClone = state.characters.find((char) => char.id === cloneCharId);
+            if (!charToClone) {
+                return state;
+            }
+            const clonedChar = {
+                ...charToClone,
+                id: Math.random().toString(36).substr(2, 9),
+                position: {
+                    x: charToClone.position.x + 10,
+                    y: charToClone.position.y + 10
+                }
+            };
+            return {
+                ...state,
+                characters: [...state.characters, clonedChar],
+                selectedId: clonedChar.id // 自動選中新 clone 出嚟嘅 component
+            };
+            
         case ActionTypes.ADD_TEXT_DISPLAY:
             return {
                 ...state,
@@ -130,6 +152,26 @@ function templateReducer(state, action) {
                 texts: state.texts.filter((text) => text.id !== removeTextId),
                 // 如果刪除嘅係 selected，就清除 selected
                 selectedId: state.selectedId === removeTextId ? null : state.selectedId
+            };
+            
+        case ActionTypes.CLONE_TEXT_DISPLAY:
+            const cloneTextId = action.payload;
+            const textToClone = state.texts.find((text) => text.id === cloneTextId);
+            if (!textToClone) {
+                return state;
+            }
+            const clonedText = {
+                ...textToClone,
+                id: Math.random().toString(36).substr(2, 9),
+                position: {
+                    x: textToClone.position.x + 10,
+                    y: textToClone.position.y + 10
+                }
+            };
+            return {
+                ...state,
+                texts: [...state.texts, clonedText],
+                selectedId: clonedText.id // 自動選中新 clone 出嚟嘅 component
             };
             
         case ActionTypes.SET_SELECTED_ID:
@@ -186,6 +228,10 @@ export function TemplateProvider({ children }) {
             dispatch({ type: ActionTypes.REMOVE_CHARACTER, payload: id });
         }, []),
         
+        cloneCharacter: useCallback((id) => {
+            dispatch({ type: ActionTypes.CLONE_CHARACTER, payload: id });
+        }, []),
+        
         // Texts
         addTextDisplay: useCallback(() => {
             dispatch({ type: ActionTypes.ADD_TEXT_DISPLAY });
@@ -197,6 +243,10 @@ export function TemplateProvider({ children }) {
         
         removeTextDisplay: useCallback((id) => {
             dispatch({ type: ActionTypes.REMOVE_TEXT_DISPLAY, payload: id });
+        }, []),
+        
+        cloneTextDisplay: useCallback((id) => {
+            dispatch({ type: ActionTypes.CLONE_TEXT_DISPLAY, payload: id });
         }, []),
         
         // Selection

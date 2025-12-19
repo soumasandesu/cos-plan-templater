@@ -285,6 +285,18 @@ export default function CharacterImageLoader({
                             onPointerDown={(e) => e.stopPropagation()}
                             onPointerMove={(e) => e.stopPropagation()}
                             onClick={(e) => {
+                                e.stopPropagation();
+                                actions.cloneCharacter(id);
+                            }}
+                            title="複製"
+                        >
+                            📋
+                        </button>
+                        <button 
+                            className={styles.DeleteButton}
+                            onPointerDown={(e) => e.stopPropagation()}
+                            onPointerMove={(e) => e.stopPropagation()}
+                            onClick={(e) => {
                                 console.debug("delete character", id);
                                 e.stopPropagation();
                                 actions.removeCharacter(id);
