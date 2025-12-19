@@ -171,7 +171,15 @@ const App = () => {
 				&nbsp;
 				<button id="showUnrenderedStyles" onClick={() => setShowUnrenderedStyles(!showUnrenderedStyles)}>{ t("toggle_unrendered_styles") }</button>
 				&nbsp;
-				<button onClick={exportTemplate}>{ t("export_url") || "Export URL" }</button>
+				<button 
+					onClick={exportTemplate}
+					disabled={state.background.imageSrc && state.background.imageSrc.startsWith("data:")}
+					title={(state.background.imageSrc && state.background.imageSrc.startsWith("data:")) 
+						? t("export_url_disabled_tooltip") 
+						: t("export_url")}
+				>
+					{ t("export_url")}
+				</button>
 			</div>
 			
 		    <ImageCardBackground

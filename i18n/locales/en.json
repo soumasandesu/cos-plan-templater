@@ -7,6 +7,7 @@
   "add_character_image": "Add Character Image",
   "export_url": "Export URL",
   "export_url_copied": "URL copied to clipboard!",
+  "export_url_disabled_tooltip": "Only external URLs can be exported",
   "import_error": "Failed to load template",
   "background_hint_text": "Background Image",
   "background_image_order_tip": "Background Image Order",

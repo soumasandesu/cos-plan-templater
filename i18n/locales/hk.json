@@ -7,6 +7,7 @@
   "add_character_image": "新增角色圖片",
   "export_url": "匯出 URL",
   "export_url_copied": "URL 已複製到剪貼板！",
+  "export_url_disabled_tooltip": "只限外部 URL 先可以匯出",
   "import_error": "載入 template 失敗",
   "background_hint_text": "背景圖片",
   "background_image_order_tip": "背景圖片順序",
