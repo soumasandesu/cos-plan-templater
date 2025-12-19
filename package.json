@@ -23,7 +23,9 @@
     "react-i18next": "^13.5.0",
     "react-mapping": "^0.0.1",
     "react-string-replace": "^0.4.4",
-    "reset-css": "^5.0.1"
+    "reset-css": "^5.0.1",
+    "pako": "^2.1.0",
+    "compact-base64": "^2.0.4"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",

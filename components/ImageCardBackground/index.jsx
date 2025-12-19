@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useTemplate } from "../../context/TemplateContext";
@@ -7,8 +7,10 @@ import { SUPPORTED_IMAGE_MIME_TYPES } from "../../extra/consts";
 
 export default function ImageCardBackground({ children, drawer, showUnrenderedStyles, ...props }) {
     const fileIn = useRef();
+    const urlIn = useRef();
     const { state, actions } = useTemplate();
     const { t } = useTranslation();
+    const [sourceMode, setSourceMode] = useState("file"); // "file" 或 "url"
 
     function sauceChg() {
         const file = fileIn.current.files[0];
@@ -24,6 +26,13 @@ export default function ImageCardBackground({ children, drawer, showUnrenderedSt
         fr.readAsDataURL(file);
     }
 
+    function handleUrlChange() {
+        const url = urlIn.current.value.trim();
+        if (url) {
+            actions.setBackgroundImage(url);
+        }
+    }
+
 	return (
 		<div className={styles.ImageCardBackground} ref={drawer} {...props}>
             <div className={styles.Content}>
@@ -36,7 +45,35 @@ export default function ImageCardBackground({ children, drawer, showUnrenderedSt
                 </div>
             )}
             <div className={styles.Toolbar}>
-                <input type="file" accept={SUPPORTED_IMAGE_MIME_TYPES.join(",")} onChange={sauceChg} ref={fileIn} />
+                <select
+                    value={sourceMode}
+                    onChange={(e) => setSourceMode(e.target.value)}
+                    style={{ marginRight: "0.5rem" }}
+                >
+                    <option value="file">{t("background_source_file")}</option>
+                    <option value="url">{t("background_source_url")}</option>
+                </select>
+                {sourceMode === "file" ? (
+                    <input 
+                        type="file" 
+                        accept={SUPPORTED_IMAGE_MIME_TYPES.join(",")} 
+                        onChange={sauceChg} 
+                        ref={fileIn} 
+                    />
+                ) : (
+                    <input 
+                        type="text" 
+                        placeholder={t("background_url_input_placeholder")}
+                        onBlur={handleUrlChange}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                handleUrlChange();
+                            }
+                        }}
+                        ref={urlIn}
+                        style={{ padding: "0.25rem 0.5rem", minWidth: "200px" }}
+                    />
+                )}
                 <select
                     onChange={(e) => {
                         // 順序：最頂(top) 或最底(bottom)

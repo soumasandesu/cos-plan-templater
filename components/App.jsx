@@ -1,5 +1,7 @@
 import React, { Fragment, useRef, useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { originalToUrl, urlToOriginal } from "compact-base64";
+import pako from "pako";
 import FileSaver from "file-saver";
 import Dom2Image from 'dom-to-image';
 
@@ -99,9 +101,18 @@ const App = () => {
 			}))
 		};
 
-		// 轉換成 JSON 並 base64 encode
+		// 轉換成 JSON，壓縮，然後以 URL-safe base64 encode
 		const jsonString = JSON.stringify(templateData);
-		const encodedData = btoa(unescape(encodeURIComponent(jsonString)));
+		// 用 pako.deflate 壓縮（返回 Uint8Array）
+		const compressed = pako.deflate(jsonString);
+		// 將 Uint8Array 轉成 base64 string（用 chunk 方式避免 stack overflow）
+		let binaryString = '';
+		for (let i = 0; i < compressed.length; i += 8192) {
+			binaryString += String.fromCharCode.apply(null, compressed.slice(i, i + 8192));
+		}
+		const base64String = btoa(binaryString);
+		// 用 compact-base64 轉成 URL-safe base64
+		const encodedData = originalToUrl(base64String);
 		
 		// 生成 URL
 		const baseUrl = window.location.origin + window.location.pathname;
@@ -124,9 +135,14 @@ const App = () => {
 		
 		if (templateParam) {
 			try {
-				// Base64 decode 並 parse JSON
-				const decodedData = decodeURIComponent(escape(atob(templateParam)));
-				const templateData = JSON.parse(decodedData);
+				// 使用 compact-base64 以 URL-safe base64 解碼，然後解壓縮
+				const base64String = urlToOriginal(templateParam);
+				// 將 base64 string 轉成 Uint8Array
+				const binaryString = atob(base64String);
+				const compressed = Uint8Array.from(binaryString, c => c.charCodeAt(0));
+				// 用 pako.inflate 解壓縮
+				const decodedJson = pako.inflate(compressed, { to: 'string' });
+				const templateData = JSON.parse(decodedJson);
 				
 				// 載入 template
 				actions.loadTemplate(templateData);
@@ -135,7 +151,7 @@ const App = () => {
 				// window.history.replaceState({}, document.title, window.location.pathname);
 			} catch (error) {
 				console.error("Failed to load template from URL:", error);
-				alert(t("import_error") || "載入 template 失敗");
+				alert(t("import_error") || "載入 template 失敗 Failed to load template.");
 			}
 		}
 	}, []); // 只在 mount 時執行一次
