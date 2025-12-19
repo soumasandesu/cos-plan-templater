@@ -8,9 +8,15 @@
   "export_url": "匯出 URL",
   "export_url_copied": "URL 已複製到剪貼板！",
   "import_error": "載入 template 失敗",
-  "background_hint_text": "白單",
+  "background_hint_text": "背景圖片",
   "background_image_order_tip": "背景圖片順序",
   "background_on_top": "放最頂",
-  "background_on_bottom": "放最底"
+  "background_on_bottom": "放最底",
+  "clone": "複製",
+  "delete": "刪除",
+  "render_mode_contain": "包含",
+  "render_mode_cover": "覆蓋",
+  "render_mode_fill": "填滿",
+  "render_mode_none": "原始大小"
 }
 

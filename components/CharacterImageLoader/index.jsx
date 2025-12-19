@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import ClassNames from "classnames";
+import { useTranslation } from "react-i18next";
 
 import { useTemplate } from "../../context/TemplateContext";
 import { SUPPORTED_IMAGE_MIME_TYPES } from "../../extra/consts";
@@ -18,6 +19,7 @@ export default function CharacterImageLoader({
     const fileIn = useRef();
     const componentRef = useRef();
     const { state, actions } = useTemplate();
+    const { t } = useTranslation();
     
     const isSelected = state.selectedId === id;
     
@@ -275,10 +277,10 @@ export default function CharacterImageLoader({
                             onPointerMove={(e) => e.stopPropagation()}
                             className={styles.RenderModeSelect}
                         >
-                            <option value="contain">Contain</option>
-                            <option value="cover">Cover</option>
-                            <option value="fill">Fill</option>
-                            <option value="none">None</option>
+                            <option value="contain">{t("render_mode_contain")}</option>
+                            <option value="cover">{t("render_mode_cover")}</option>
+                            <option value="fill">{t("render_mode_fill")}</option>
+                            <option value="none">{t("render_mode_none")}</option>
                         </select>
                         <button 
                             className={styles.DeleteButton}

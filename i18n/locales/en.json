@@ -8,9 +8,15 @@
   "export_url": "Export URL",
   "export_url_copied": "URL copied to clipboard!",
   "import_error": "Failed to load template",
-  "background_hint_text": "White Background",
+  "background_hint_text": "Background Image",
   "background_image_order_tip": "Background Image Order",
   "background_on_top": "On Top",
-  "background_on_bottom": "On Bottom"
+  "background_on_bottom": "On Bottom",
+  "clone": "Clone",
+  "delete": "Delete",
+  "render_mode_contain": "Contain",
+  "render_mode_cover": "Cover",
+  "render_mode_fill": "Fill",
+  "render_mode_none": "None"
 }
 
