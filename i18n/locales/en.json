@@ -13,7 +13,7 @@
   "background_image_order_tip": "Background Image Order",
   "background_on_top": "On Top",
   "background_on_bottom": "On Bottom",
-  "background_source_file": "Upload File",
+  "background_source_file": "Load File",
   "background_source_url": "External URL",
   "background_url_input_placeholder": "Enter image URL",
   "upload_hosts_title": "Recommended Image Upload Services",
@@ -27,6 +27,21 @@
   "render_mode_contain": "Contain",
   "render_mode_cover": "Cover",
   "render_mode_fill": "Fill",
-  "render_mode_none": "None"
+  "render_mode_none": "None",
+  "toggle_unrendered_styles": "Toggle Unrendered Styles",
+  "toggle_multi_line": "Toggle to Multi Line",
+  "toggle_single_line": "Toggle to Single Line",
+  "multi_line": "Multi Line",
+  "single_line": "Single Line",
+  "left": "Left",
+  "center": "Center",
+  "right": "Right",
+  "auto_width": "Auto Width",
+  "fixed_width": "Fixed Width",
+  "bold": "Bold",
+  "italic": "Italic",
+  "underline": "Underline",
+  "strikethrough": "Strikethrough",
+  "enter_text": "Enter Text"
 }
 

@@ -3,6 +3,7 @@ import ClassNames from "classnames";
 
 import { useTemplate } from "../../context/TemplateContext";
 import { FONT_FAMILIES } from "../../extra/consts";
+import { useTranslation } from "react-i18next";
 
 import styles from "./styles.module.scss";
 
@@ -10,6 +11,7 @@ export default function TextDisplay({ draggable = true, showBorder = true, id, r
     const textRef = useRef();
     const componentRef = useRef();
     const { state, actions } = useTemplate();
+    const { t } = useTranslation();
     
     const isSelected = state.selectedId === id;
     
@@ -162,7 +164,7 @@ export default function TextDisplay({ draggable = true, showBorder = true, id, r
                                 e.stopPropagation();
                                 actions.cloneTextDisplay(id);
                             }}
-                            title="複製"
+                            title={t("clone")}
                         >
                             📋
                         </button>
@@ -172,7 +174,7 @@ export default function TextDisplay({ draggable = true, showBorder = true, id, r
                                 e.stopPropagation();
                                 actions.removeTextDisplay(id);
                             }}
-                            title="刪除"
+                            title={t("delete")}
                         >
                             🗑️
                         </button>
@@ -208,9 +210,9 @@ export default function TextDisplay({ draggable = true, showBorder = true, id, r
                             }}
                             onPointerDown={(e) => e.stopPropagation()}
                             onPointerMove={(e) => e.stopPropagation()}
-                            title={textData.inputType === "single" ? "切換到多行" : "切換到單行"}
+                            title={textData.inputType === "single" ? t("toggle_multi_line") : t("toggle_single_line")}
                         >
-                            {textData.inputType === "single" ? "多行" : "單行"}
+                            {textData.inputType === "single" ? t("multi_line") : t("single_line")}
                         </button>
                     </div>
                     
@@ -222,9 +224,9 @@ export default function TextDisplay({ draggable = true, showBorder = true, id, r
                             onPointerMove={(e) => e.stopPropagation()}
                             className={styles.Select}
                         >
-                            <option value="left">靠左</option>
-                            <option value="center">置中</option>
-                            <option value="right">靠右</option>
+                            <option value="left">{t("left")}</option>
+                            <option value="center">{t("center")}</option>
+                            <option value="right">{t("right")}</option>
                         </select>
                         <select
                             value={textData.widthMode || "auto"}
@@ -233,8 +235,8 @@ export default function TextDisplay({ draggable = true, showBorder = true, id, r
                             onPointerMove={(e) => e.stopPropagation()}
                             className={styles.Select}
                         >
-                            <option value="auto">自動寬度</option>
-                            <option value="fixed">固定寬度</option>
+                            <option value="auto">{t("auto_width")}</option>
+                            <option value="fixed">{t("fixed_width")}</option>
                         </select>
                     </div>
                     
@@ -279,7 +281,7 @@ export default function TextDisplay({ draggable = true, showBorder = true, id, r
                             }}
                             onPointerDown={(e) => e.stopPropagation()}
                             onPointerMove={(e) => e.stopPropagation()}
-                            title="粗體"
+                            title={t("bold")}
                         >
                             B
                         </button>
@@ -291,7 +293,7 @@ export default function TextDisplay({ draggable = true, showBorder = true, id, r
                             }}
                             onPointerDown={(e) => e.stopPropagation()}
                             onPointerMove={(e) => e.stopPropagation()}
-                            title="斜體"
+                            title={t("italic")}
                         >
                             I
                         </button>
@@ -303,7 +305,7 @@ export default function TextDisplay({ draggable = true, showBorder = true, id, r
                             }}
                             onPointerDown={(e) => e.stopPropagation()}
                             onPointerMove={(e) => e.stopPropagation()}
-                            title="底線"
+                            title={t("underline")}
                         >
                             U
                         </button>
@@ -315,7 +317,7 @@ export default function TextDisplay({ draggable = true, showBorder = true, id, r
                             }}
                             onPointerDown={(e) => e.stopPropagation()}
                             onPointerMove={(e) => e.stopPropagation()}
-                            title="刪除線"
+                            title={t("strikethrough")}
                         >
                             S
                         </button>
@@ -341,7 +343,7 @@ export default function TextDisplay({ draggable = true, showBorder = true, id, r
                     whiteSpace: textData.inputType === "multi" ? "pre-wrap" : "nowrap"
                 }}
             >
-                {textData.text || "輸入文字"}
+                {textData.text || t("enter_text")}
             </div>
             {isSelected && textData.widthMode === "fixed" && (
                 <div

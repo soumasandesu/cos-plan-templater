@@ -45,7 +45,7 @@
         position: absolute;
         top: calc(100% + 2px);
         left: -2px;
-        width: calc(100% - 4px);
+        width: calc(100% - 2rem + 4px);
         max-width: 100%;
         background: #fcc;
         border-radius: 0 0 0.5rem 0.5rem;
@@ -61,6 +61,12 @@
 
         &:last-child {
             margin-bottom: 0;
+        }
+
+        &.FloatRight {
+            margin: -1rem -0.5rem 0 0;
+            text-align: right;
+            display: block;
         }
 
         .RenderModeSelect {
@@ -85,9 +91,10 @@
     > .Index {
         position: absolute;
         top: calc(50% - 1rem);
-        left: 50%;
-        font-size: 2rem;
+        width: 100%;
         text-align: center;
+        font-size: 2rem;
         color: #a00;
+        user-select: none;
     }
 }

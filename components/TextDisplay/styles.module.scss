@@ -20,11 +20,11 @@
 .ControlPanel {
     position: absolute;
     top: calc(100% + 2px);
-    left: 0;
-    background: #cfc;
-    border-radius: 4px;
-    padding: 1rem;
+    left: -2px;
+    width: calc(100% - 2rem + 4px);
     min-width: 250px;
+    background: #cfc;
+    padding: 1rem;
     border-radius: 0 0 0.5rem 0.5rem;
     z-index: 1;
 }

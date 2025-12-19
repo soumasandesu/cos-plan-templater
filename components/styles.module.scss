@@ -8,6 +8,18 @@
         padding: 1rem;
         background: #f0f0f0;
         border-bottom: 1px solid #ccc;
-        margin-bottom: 3rem;
+        margin-bottom: 4rem;
+
+        > .ToolbarLeft {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        > .ToolbarRight {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
     }
 }

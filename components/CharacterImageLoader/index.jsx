@@ -260,7 +260,7 @@ export default function CharacterImageLoader({
                         onPointerUp={handlePointerUp}
                     />
                     <div className={styles.ControlPanel}>
-                        <div className={styles.ControlRow}>
+                        <div className={ClassNames(styles.ControlRow, styles.FloatRight)}>
                             <button 
                                 className={styles.DeleteButton}
                                 onPointerDown={(e) => e.stopPropagation()}
@@ -269,7 +269,7 @@ export default function CharacterImageLoader({
                                     e.stopPropagation();
                                     actions.cloneCharacter(id);
                                 }}
-                                title="複製"
+                                title={t("clone")}
                             >
                                 📋
                             </button>
@@ -282,7 +282,7 @@ export default function CharacterImageLoader({
                                     e.stopPropagation();
                                     actions.removeCharacter(id);
                                 }}
-                                title="刪除"
+                                title={t("delete")}
                             >
                                 🗑️
                             </button>
