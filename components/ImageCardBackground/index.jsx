@@ -107,6 +107,25 @@ export default function ImageCardBackground({ children, drawer, showUnrenderedSt
                     <option value="top">{t("background_on_top")}</option>
                     <option value="bottom">{t("background_on_bottom")}</option>
                 </select>
+                {state.background.imageSrc && (
+                    <button
+                        type="button"
+                        onClick={() => actions.setBackgroundImage(null)}
+                        title={t("clear_background")}
+                        style={{
+                            marginLeft: "0.5rem",
+                            padding: "0.25rem",
+                            cursor: "pointer",
+                            background: "#dc3545",
+                            color: "#fff",
+                            border: "none",
+                            borderRadius: "4px",
+                            fontSize: "0.875rem"
+                        }}
+                    >
+                        {t("clear_background")}
+                    </button>
+                )}
             </div>
             <DialogHintUploadHosts 
                 isOpen={showDialog} 
