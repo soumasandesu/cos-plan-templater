@@ -155,6 +155,29 @@ export default function TextDisplay({ draggable = true, showBorder = true, id, r
                     onPointerDown={(e) => e.stopPropagation()}
                     onPointerMove={(e) => e.stopPropagation()}
                 >
+                    <div className={ClassNames(styles.ControlRow, styles.FloatRight)}>
+                        <button 
+                            className={styles.DeleteButton}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                actions.cloneTextDisplay(id);
+                            }}
+                            title="複製"
+                        >
+                            📋
+                        </button>
+                        <button 
+                            className={styles.DeleteButton}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                actions.removeTextDisplay(id);
+                            }}
+                            title="刪除"
+                        >
+                            🗑️
+                        </button>
+                    </div>
+                    
                     <div className={styles.ControlRow}>
                         {textData.inputType === "single" ? (
                             <input
@@ -188,26 +211,6 @@ export default function TextDisplay({ draggable = true, showBorder = true, id, r
                             title={textData.inputType === "single" ? "切換到多行" : "切換到單行"}
                         >
                             {textData.inputType === "single" ? "多行" : "單行"}
-                        </button>
-                        <button 
-                            className={styles.DeleteButton}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                actions.cloneTextDisplay(id);
-                            }}
-                            title="複製"
-                        >
-                            📋
-                        </button>
-                        <button 
-                            className={styles.DeleteButton}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                actions.removeTextDisplay(id);
-                            }}
-                            title="刪除"
-                        >
-                            🗑️
                         </button>
                     </div>
                     
@@ -257,6 +260,9 @@ export default function TextDisplay({ draggable = true, showBorder = true, id, r
                             max="200"
                             className={styles.NumberInput}
                         />
+                    </div>
+                    
+                    <div className={styles.ControlRow}>
                         <input
                             type="color"
                             value={textData.color}
