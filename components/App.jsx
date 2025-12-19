@@ -9,6 +9,8 @@ import { useTemplate } from "@/context/TemplateContext";
 import ImageCardBackground from "@/components/ImageCardBackground/";
 import CharacterImageLoader from "@/components/CharacterImageLoader/";
 import TextDisplay from "@/components/TextDisplay/";
+import DialogExportText from "@/components/DialogExportText/";
+import DialogImportText from "@/components/DialogImportText/";
 
 import styles from "./styles.module.scss";
 
@@ -17,6 +19,10 @@ const App = () => {
 	const { state, actions } = useTemplate();
 	const drawer = useRef();
 	const [showUnrenderedStyles, setShowUnrenderedStyles] = useState(true);
+	const [showExportTextDialog, setShowExportTextDialog] = useState(false);
+	const [exportTextJson, setExportTextJson] = useState("");
+	const [useBase64, setUseBase64] = useState(true);
+	const [showImportTextDialog, setShowImportTextDialog] = useState(false);
 	
 	// 收集所有 component refs
 	const componentRefs = useRef(new Map()); // id -> ref
@@ -128,6 +134,83 @@ const App = () => {
 		});
 	}
 
+	function getTemplateData() {
+		return {
+			background: {
+				imageSrc: state.background.imageSrc,
+				size: state.background.size
+			},
+			characters: state.characters.map(char => ({
+				id: char.id,
+				position: char.position,
+				size: char.size,
+				imageDataUrl: char.imageDataUrl,
+				imageRenderMode: char.imageRenderMode || "contain"
+			})),
+			texts: state.texts.map(text => ({
+				id: text.id,
+				position: text.position,
+				text: text.text,
+				fontFamily: text.fontFamily,
+				fontSize: text.fontSize,
+				isBold: text.isBold,
+				isItalic: text.isItalic,
+				isUnderline: text.isUnderline,
+				isStrikethrough: text.isStrikethrough,
+				color: text.color,
+				textAlign: text.textAlign || "left",
+				widthMode: text.widthMode || "auto",
+				width: text.width || 200,
+				inputType: text.inputType || "single"
+			}))
+		};
+	}
+
+	function computeExportText(useBase64Option) {
+		const templateData = getTemplateData();
+		
+		if (useBase64Option) {
+			// 轉換成 JSON，壓縮，然後以 URL-safe base64 encode
+			const jsonString = JSON.stringify(templateData);
+			// 用 pako.deflate 壓縮（返回 Uint8Array）
+			const compressed = pako.deflate(jsonString);
+			// 將 Uint8Array 轉成 base64 string（用 chunk 方式避免 stack overflow）
+			let binaryString = '';
+			for (let i = 0; i < compressed.length; i += 8192) {
+				binaryString += String.fromCharCode.apply(null, compressed.slice(i, i + 8192));
+			}
+			const base64String = btoa(binaryString);
+			// 用 compact-base64 轉成 URL-safe base64
+			return originalToUrl(base64String);
+		} else {
+			// 轉換成格式化的 JSON string（不壓縮）
+			return JSON.stringify(templateData, null, 2);
+		}
+	}
+
+	function exportAsText() {
+		const text = computeExportText(useBase64);
+		setExportTextJson(text);
+		setShowExportTextDialog(true);
+	}
+
+	function handleUseBase64Change(newValue) {
+		setUseBase64(newValue);
+		// 當 checkbox 改變時，重新計算 export text
+		const text = computeExportText(newValue);
+		setExportTextJson(text);
+	}
+
+	function handleImportTemplate(templateData) {
+		try {
+			actions.loadTemplate(templateData);
+			alert(t("import_text_success") || "Template 載入成功！");
+		} catch (error) {
+			console.error("Failed to import template:", error);
+			alert(t("import_text_error_unknown") || "載入 template 失敗");
+		}
+	}
+
 	// 檢查 URL query string 並載入 template
 	useEffect(() => {
 		const urlParams = new URLSearchParams(window.location.search);
@@ -190,6 +273,14 @@ const App = () => {
 					>
 						{ t("export_url")}
 					</button>
+					&nbsp;
+					<button onClick={exportAsText}>
+						{ t("export_text") }
+					</button>
+					&nbsp;
+					<button onClick={() => setShowImportTextDialog(true)}>
+						{ t("import_text") }
+					</button>
 				</div>
 			</div>
 			
@@ -227,6 +318,18 @@ const App = () => {
 				))
 			}
 			</ImageCardBackground>
+			<DialogExportText
+				isOpen={showExportTextDialog}
+				onClose={() => setShowExportTextDialog(false)}
+				jsonText={exportTextJson}
+				useBase64={useBase64}
+				onUseBase64Change={handleUseBase64Change}
+			/>
+			<DialogImportText
+				isOpen={showImportTextDialog}
+				onClose={() => setShowImportTextDialog(false)}
+				onImport={handleImportTemplate}
+			/>
 		</div>
 	)
 };
