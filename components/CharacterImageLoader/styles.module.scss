@@ -41,7 +41,7 @@
         background-color: rgba(255, 255, 255, 0.5);
     }
 
-    .Toolbar {
+    .ControlPanel {
         position: absolute;
         top: calc(100% + 2px);
         left: -2px;
@@ -49,14 +49,18 @@
         max-width: 100%;
         background: #fcc;
         border-radius: 0 0 0.5rem 0.5rem;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: stretch;
-        gap: 0.5rem;
-        padding: 0.25rem;
+        padding: 1rem;
+    }
 
-        > input[type="file"] {
-            flex-grow: 8;
+    .ControlRow {
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+
+        &:last-child {
+            margin-bottom: 0;
         }
 
         .RenderModeSelect {

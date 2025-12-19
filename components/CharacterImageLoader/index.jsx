@@ -259,54 +259,58 @@ export default function CharacterImageLoader({
                         onPointerDown={handleResizePointerDown}
                         onPointerUp={handlePointerUp}
                     />
-                    <div className={styles.Toolbar}>
-                        <input
-                            type="file"
-                            accept={SUPPORTED_IMAGE_MIME_TYPES.join(",")}
-                            onPointerDown={(e) => e.stopPropagation()}
-                            onPointerMove={(e) => e.stopPropagation()}
-                            onChange={sauceChg}
-                            ref={fileIn}
-                        />
-                        <select
-                            value={character.imageRenderMode || "contain"}
-                            onChange={(e) => {
-                                actions.updateCharacter(id, { imageRenderMode: e.target.value });
-                            }}
-                            onPointerDown={(e) => e.stopPropagation()}
-                            onPointerMove={(e) => e.stopPropagation()}
-                            className={styles.RenderModeSelect}
-                        >
-                            <option value="contain">{t("render_mode_contain")}</option>
-                            <option value="cover">{t("render_mode_cover")}</option>
-                            <option value="fill">{t("render_mode_fill")}</option>
-                            <option value="none">{t("render_mode_none")}</option>
-                        </select>
-                        <button 
-                            className={styles.DeleteButton}
-                            onPointerDown={(e) => e.stopPropagation()}
-                            onPointerMove={(e) => e.stopPropagation()}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                actions.cloneCharacter(id);
-                            }}
-                            title="複製"
-                        >
-                            📋
-                        </button>
-                        <button 
-                            className={styles.DeleteButton}
-                            onPointerDown={(e) => e.stopPropagation()}
-                            onPointerMove={(e) => e.stopPropagation()}
-                            onClick={(e) => {
-                                console.debug("delete character", id);
-                                e.stopPropagation();
-                                actions.removeCharacter(id);
-                            }}
-                            title="刪除"
-                        >
-                            🗑️
-                        </button>
+                    <div className={styles.ControlPanel}>
+                        <div className={styles.ControlRow}>
+                            <button 
+                                className={styles.DeleteButton}
+                                onPointerDown={(e) => e.stopPropagation()}
+                                onPointerMove={(e) => e.stopPropagation()}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    actions.cloneCharacter(id);
+                                }}
+                                title="複製"
+                            >
+                                📋
+                            </button>
+                            <button 
+                                className={styles.DeleteButton}
+                                onPointerDown={(e) => e.stopPropagation()}
+                                onPointerMove={(e) => e.stopPropagation()}
+                                onClick={(e) => {
+                                    console.debug("delete character", id);
+                                    e.stopPropagation();
+                                    actions.removeCharacter(id);
+                                }}
+                                title="刪除"
+                            >
+                                🗑️
+                            </button>
+                        </div>
+                        <div className={styles.ControlRow}>
+                            <input
+                                type="file"
+                                accept={SUPPORTED_IMAGE_MIME_TYPES.join(",")}
+                                onPointerDown={(e) => e.stopPropagation()}
+                                onPointerMove={(e) => e.stopPropagation()}
+                                onChange={sauceChg}
+                                ref={fileIn}
+                            />
+                            <select
+                                value={character.imageRenderMode || "contain"}
+                                onChange={(e) => {
+                                    actions.updateCharacter(id, { imageRenderMode: e.target.value });
+                                }}
+                                onPointerDown={(e) => e.stopPropagation()}
+                                onPointerMove={(e) => e.stopPropagation()}
+                                className={styles.RenderModeSelect}
+                            >
+                                <option value="contain">{t("render_mode_contain")}</option>
+                                <option value="cover">{t("render_mode_cover")}</option>
+                                <option value="fill">{t("render_mode_fill")}</option>
+                                <option value="none">{t("render_mode_none")}</option>
+                            </select>
+                        </div>
                     </div>
                 </>
             )}
