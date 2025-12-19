@@ -67,7 +67,7 @@ const App = () => {
 		otherDivs.forEach(e => e.style.display = "none");
 
 		const dataUrl = await Dom2Image.toPng(drawer.current, {
-			quality: .9
+			quality: .95,
 		});
 
 		FileSaver.saveAs(dataUrl, `${t("_out_filename")}.jpg`);
@@ -251,7 +251,13 @@ const App = () => {
 						{ t("add_character_image") }
 					</button>
 					&nbsp;
-					<button id="save" onClick={saveImage}>{ t("save_image") }</button>
+					<button
+						id="save"
+						onClick={saveImage}
+						disabled={!state.background.imageSrc}
+					>
+						{ t("save_image") }
+					</button>
 				</div>
 				<div className={styles.ToolbarRight}>
 					<label style={{ display: "inline-flex", alignItems: "center", gap: "0.4em" }}>
