@@ -7,6 +7,13 @@
         border-bottom: 1px solid #ccc;
         margin-bottom: 4rem;
 
+        &, button, input, label {
+            font-size: .8rem !important;
+        }
+        button {
+            padding: 0.25em 0.5rem;
+        }
+
         .ToolbarInner {
             display: flex;
             justify-content: space-between;
