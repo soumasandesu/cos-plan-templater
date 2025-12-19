@@ -44,4 +44,14 @@
         border-radius: 0.5rem 0.5rem 0 0;
         padding: 0 0.5rem;
     }
+
+    > img {
+        position: relative;
+        user-select: none;
+        pointer-events: none;
+
+        &.SeeThrough {
+            opacity: .7;
+        }
+    }
 }

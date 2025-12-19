@@ -7,7 +7,17 @@ import { SUPPORTED_IMAGE_MIME_TYPES } from "../../extra/consts";
 import DialogHintUploadHosts from "./DialogHintUploadHosts";
 import ClassNames from "classnames";
 
-export default function ImageCardBackground({ children, drawer, showUnrenderedStyles, ...props }) {
+export default function ImageCardBackground({
+    className,
+    children,
+    drawer,
+    showUnrenderedStyles,
+    imgProps: {
+        className: imgClassName,
+        ...imgProps
+    } = {},
+    ...props
+}) {
     const fileIn = useRef();
     const urlIn = useRef();
     const { state, actions } = useTemplate();
@@ -40,14 +50,26 @@ export default function ImageCardBackground({ children, drawer, showUnrenderedSt
 		<div
             className={ClassNames(styles.ImageCardBackground, {
                 [styles.CheckerBackground]: showUnrenderedStyles,
-            })}
+            },
+            className,
+        )}
             ref={drawer}
             {...props}
         >
             <div className={styles.Content}>
                 { children }
             </div>
-			<img src={state.background.imageSrc || ""} alt="" />
+
+			<img
+                className={ClassNames({
+                    imgClassName,
+                    [styles.SeeThrough]: state.background.imageOrder === "before_characters",
+                })}
+                src={state.background.imageSrc || ""}
+                alt=""
+                {...imgProps}
+            />
+
             {!state.background.imageSrc && (
                 <div className={styles.HintText}>
                     { t("background_hint_text") }
@@ -111,7 +133,7 @@ export default function ImageCardBackground({ children, drawer, showUnrenderedSt
                     style={{ marginLeft: "0.5rem" }}
                     title={t("background_image_order_tip")}
                 >
-                    <option value="top">{t("background_on_top")}</option>
+                    <option value="before_characters">{t("background_on_top_of_characters")}</option>
                     <option value="bottom">{t("background_on_bottom")}</option>
                 </select>
                 {state.background.imageSrc && (

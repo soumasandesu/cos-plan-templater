@@ -8,12 +8,14 @@ import { SUPPORTED_IMAGE_MIME_TYPES } from "../../extra/consts";
 import styles from "./styles.module.scss";
 
 export default function CharacterImageLoader({
+    className,
     id,
     index,
     draggable = true,
     showBorder = true,
     registerRef,
     unregisterRef,
+    ...props
 }) {
     const canvas = useRef();
     const fileIn = useRef();
@@ -230,7 +232,8 @@ export default function CharacterImageLoader({
                     [styles.Draggable]: draggable,
                     [styles.Selected]: isSelected,
                     [styles.ShowBorder]: showBorder,
-                }
+                },
+                className,
             )}
             style={{
                 transform: `translate(${character.position.x}px, ${character.position.y}px)`,
@@ -240,6 +243,7 @@ export default function CharacterImageLoader({
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
             onPointerLeave={handlePointerUp}
+            {...props}
         >
             {index && (
                 <div className={styles.Index}>

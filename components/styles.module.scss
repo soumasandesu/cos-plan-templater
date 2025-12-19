@@ -22,4 +22,11 @@
             gap: 1rem;
         }
     }
+
+    // Automatic generation of z-index classes from .Z0 to .Z10
+    @for $i from 0 through 10 {
+        .Z#{$i} {
+            z-index: $i;
+        }
+    }
 }

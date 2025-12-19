@@ -11,7 +11,7 @@
   "import_error": "Failed to load template",
   "background_hint_text": "Background Image",
   "background_image_order_tip": "Background Image Order",
-  "background_on_top": "On Top",
+  "background_on_top_of_characters": "On Top of Characters",
   "background_on_bottom": "On Bottom",
   "background_source_file": "Load File",
   "background_source_url": "External URL",

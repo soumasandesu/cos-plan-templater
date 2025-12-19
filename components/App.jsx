@@ -197,10 +197,14 @@ const App = () => {
 				id="drawer"
 				drawer={drawer}
 				showUnrenderedStyles={showUnrenderedStyles}
+				imgProps={{
+					className: state.background.imageOrder === "before_characters" ? styles.Z2 : styles.Z0,
+				}}
 			>
 			{
 				state.characters.map(({ id }, index) => (
 					<CharacterImageLoader 
+						className={styles.Z1}
 						key={id} 
 						id={id} 
 						index={index + 1}
@@ -213,6 +217,7 @@ const App = () => {
 			{
 				state.texts.map(({ id }) => (
 					<TextDisplay 
+						className={styles.Z3}
 						key={id} 
 						id={id} 
 						registerRef={registerRef}

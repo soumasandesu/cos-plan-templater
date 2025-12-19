@@ -7,7 +7,15 @@ import { useTranslation } from "react-i18next";
 
 import styles from "./styles.module.scss";
 
-export default function TextDisplay({ draggable = true, showBorder = true, id, registerRef, unregisterRef }) {
+export default function TextDisplay({
+    className,
+    draggable = true,
+    showBorder = true,
+    id,
+    registerRef,
+    unregisterRef,
+    ...props
+}) {
     const textRef = useRef();
     const componentRef = useRef();
     const { state, actions } = useTemplate();
@@ -140,7 +148,8 @@ export default function TextDisplay({ draggable = true, showBorder = true, id, r
                     [styles.Draggable]: draggable,
                     [styles.Selected]: isSelected,
                     [styles.ShowBorder]: showBorder,
-                }
+                },
+                className,
             )}
             style={{
                 transform: `translate(${textData.position.x}px, ${textData.position.y}px)`,
@@ -150,6 +159,7 @@ export default function TextDisplay({ draggable = true, showBorder = true, id, r
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
             onPointerLeave={handlePointerUp}
+            {...props}
         >
             {isSelected && (
                 <div 
