@@ -6,7 +6,16 @@
     min-height: 600px;
     position: relative;
     border: 2px #aaa dashed;
-    background-color: rgba(255, 255, 255, 0.5);
+
+    &.CheckerBackground {
+        --color-1: #fff;
+        --color-2: #ddd;
+        --size: 16px;
+        background: {
+            image: repeating-conic-gradient(var(--color-1) 0% 25%, var(--color-2) 25% 50%);
+            size: calc(var(--size)*2) calc(var(--size)*2);
+        }
+    }
 
     .HintText {
         position: absolute;
@@ -14,6 +23,7 @@
         width: 100%;
         font-size: 2rem;
         text-align: center;
+        text-shadow: 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff, 0 0 1px #fff;
         color: #aaa;
         user-select: none;
     }

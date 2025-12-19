@@ -5,6 +5,7 @@ import { useTemplate } from "../../context/TemplateContext";
 import styles from "./styles.module.scss";
 import { SUPPORTED_IMAGE_MIME_TYPES } from "../../extra/consts";
 import DialogHintUploadHosts from "./DialogHintUploadHosts";
+import ClassNames from "classnames";
 
 export default function ImageCardBackground({ children, drawer, showUnrenderedStyles, ...props }) {
     const fileIn = useRef();
@@ -36,7 +37,13 @@ export default function ImageCardBackground({ children, drawer, showUnrenderedSt
     }
 
 	return (
-		<div className={styles.ImageCardBackground} ref={drawer} {...props}>
+		<div
+            className={ClassNames(styles.ImageCardBackground, {
+                [styles.CheckerBackground]: showUnrenderedStyles,
+            })}
+            ref={drawer}
+            {...props}
+        >
             <div className={styles.Content}>
                 { children }
             </div>
@@ -100,7 +107,7 @@ export default function ImageCardBackground({ children, drawer, showUnrenderedSt
                         // 順序：最頂(top) 或最底(bottom)
                         actions.setBackgroundImageOrder(e.target.value);
                     }}
-                    value={state.background.imageOrder || "top"}
+                    value={state.background.imageOrder}
                     style={{ marginLeft: "0.5rem" }}
                     title={t("background_image_order_tip")}
                 >
