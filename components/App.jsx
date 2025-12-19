@@ -1,4 +1,5 @@
-import React, { Fragment, useRef, useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
+import ClassNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { originalToUrl, urlToOriginal } from "compact-base64";
 import pako from "pako";
@@ -308,7 +309,10 @@ const App = () => {
 			{
 				state.characters.map(({ id }, index) => (
 					<CharacterImageLoader 
-						className={styles.Z1}
+						className={ClassNames({
+							[styles.Z1]: state.selectedId !== id,
+							[styles.Z10]: state.selectedId === id,
+						})}
 						key={id} 
 						id={id} 
 						index={index + 1}
@@ -321,7 +325,10 @@ const App = () => {
 			{
 				state.texts.map(({ id }) => (
 					<TextDisplay 
-						className={styles.Z3}
+						className={ClassNames({
+							[styles.Z3]: state.selectedId !== id,
+							[styles.Z10]: state.selectedId === id,
+						})}
 						key={id} 
 						id={id} 
 						registerRef={registerRef}
