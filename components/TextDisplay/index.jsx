@@ -2,6 +2,8 @@ import { useRef, useState, useEffect } from "react";
 import ClassNames from "classnames";
 
 import { useTemplate } from "../../context/TemplateContext";
+import { FONT_FAMILIES } from "../../extra/consts";
+
 import styles from "./styles.module.scss";
 
 export default function TextDisplay({ draggable = true, showBorder = true, id, registerRef, unregisterRef }) {
@@ -127,24 +129,6 @@ export default function TextDisplay({ draggable = true, showBorder = true, id, r
         pointerStartPos.current = { x: e.clientX, y: e.clientY };
     }
 
-    // 常用字型列表
-    const fontFamilies = [
-        "Arial",
-        "Helvetica",
-        "Times New Roman",
-        "Courier New",
-        "Verdana",
-        "Georgia",
-        "Palatino",
-        "Garamond",
-        "Comic Sans MS",
-        "Trebuchet MS",
-        "Impact",
-        "微軟正黑體",
-        "新細明體",
-        "標楷體"
-    ];
-
     return (
         <div
             ref={componentRef}
@@ -249,7 +233,7 @@ export default function TextDisplay({ draggable = true, showBorder = true, id, r
                             onPointerMove={(e) => e.stopPropagation()}
                             className={styles.Select}
                         >
-                            {fontFamilies.map(font => (
+                            {FONT_FAMILIES.map(font => (
                                 <option key={font} value={font}>{font}</option>
                             ))}
                         </select>

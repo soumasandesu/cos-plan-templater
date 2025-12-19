@@ -1,4 +1,6 @@
 .App {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", "Heiti TC", "STHeiti", "Arial", sans-serif;
+
     .Toolbar {
         display: flex;
         justify-content: space-between;
@@ -8,8 +10,4 @@
         border-bottom: 1px solid #ccc;
         margin-bottom: 3rem;
     }
-}
-
-.ShowBorders {
-    // 當有呢個 class 時，先顯示 borders
 }

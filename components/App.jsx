@@ -14,7 +14,7 @@ const App = () => {
 	const { t } = useTranslation();
 	const { state, actions } = useTemplate();
 	const drawer = useRef();
-	const [isExporting, setIsExporting] = useState(false);
+	const [showUnrenderedStyles, setShowUnrenderedStyles] = useState(true);
 	
 	// 收集所有 component refs
 	const componentRefs = useRef(new Map()); // id -> ref
@@ -47,7 +47,7 @@ const App = () => {
 	}, [state.selectedId, actions]);
 
 	async function saveImage() {
-		setIsExporting(true);
+		setShowUnrenderedStyles(true);
 		// 清除 selected，隱藏所有 borders 同 toolbars
 		actions.setSelectedId(null);
 		
@@ -64,7 +64,7 @@ const App = () => {
 
 		FileSaver.saveAs(dataUrl, `${t("_out_filename")}.jpg`);
 		otherDivs.forEach(e => e.style.display = "");
-		setIsExporting(false);
+		setShowUnrenderedStyles(false);
 	}
 
 	function exportTemplate() {
@@ -153,13 +153,15 @@ const App = () => {
 				&nbsp;
 				<button id="save" onClick={saveImage}>{ t("save_image") }</button>
 				&nbsp;
+				<button id="showUnrenderedStyles" onClick={() => setShowUnrenderedStyles(!showUnrenderedStyles)}>{ t("toggle_unrendered_styles") }</button>
+				&nbsp;
 				<button onClick={exportTemplate}>{ t("export_url") || "Export URL" }</button>
 			</div>
 			
 		    <ImageCardBackground
 				id="drawer"
 				drawer={drawer}
-				className={isExporting ? undefined : "ShowBorders"}
+				showUnrenderedStyles={showUnrenderedStyles}
 			>
 			{
 				state.characters.map(({ id }, index) => (
@@ -169,6 +171,7 @@ const App = () => {
 						index={index + 1}
 						registerRef={registerRef}
 						unregisterRef={unregisterRef}
+						showBorder={showUnrenderedStyles}
 					/>
 				))
 			}
@@ -179,6 +182,7 @@ const App = () => {
 						id={id} 
 						registerRef={registerRef}
 						unregisterRef={unregisterRef}
+						showBorder={showUnrenderedStyles}
 					/>
 				))
 			}

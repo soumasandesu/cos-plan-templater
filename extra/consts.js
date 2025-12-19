@@ -10,3 +10,20 @@ export const SUPPORTED_IMAGE_MIME_TYPES = [
   "image/vnd.microsoft.icon",
   "image/apng",
 ];
+
+export const FONT_FAMILIES = [
+  "Arial",
+  "Helvetica",
+  "Times New Roman",
+  "Courier New",
+  "Verdana",
+  "Georgia",
+  "Palatino",
+  "Garamond",
+  "Comic Sans MS",
+  "Trebuchet MS",
+  "Impact",
+  "微軟正黑體",
+  "新細明體",
+  "標楷體"
+];

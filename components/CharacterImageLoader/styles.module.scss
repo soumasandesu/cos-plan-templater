@@ -6,6 +6,7 @@
     /* width: 100%; */
     /* height: 100%; */
     touch-action: none; /* 避免手機上拖動時滾動頁面 */
+    border: 2px transparent dashed;
 
     > * {
         display: block;
@@ -36,18 +37,17 @@
 
     // 只有當父元素有 .ShowBorders class 時先顯示 border
     &.ShowBorder {
-        border: 2px #a00 dashed;
+        border-color: #a00;
         background-color: rgba(255, 255, 255, 0.5);
     }
 
     .Toolbar {
         position: absolute;
         top: calc(100% + 2px);
-        bottom: -36px;
         width: 100%;
         max-width: 100%;
         background: #fcc;
-        border-radius: 0 0 1rem 1rem;
+        border-radius: 0 0 0.5rem 0.5rem;
         display: flex;
         align-items: center;
         gap: 0.5rem;
@@ -55,6 +55,7 @@
 
         > input[type="file"] {
             display: inline-block;
+            width: 12rem;
         }
 
         .RenderModeSelect {

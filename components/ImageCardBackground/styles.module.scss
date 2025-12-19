@@ -8,6 +8,16 @@
     border: 2px #aaa dashed;
     background-color: rgba(255, 255, 255, 0.5);
 
+    .HintText {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -0.5em 0 0 -0.5em;
+        font-size: 2rem;
+        text-align: center;
+        color: #aaa;
+    }
+
     > .Content {
         position: absolute;
         top: 0;
@@ -16,17 +26,12 @@
         height: 100%;
     }
 
-    > .FileIn {
+    > .Toolbar {
         position: absolute;
         right: 0;
         top: -36px;
         background: #aaa;
-        border-radius: 1rem 1rem 0 0;
-        padding: 0 0 0 0.5rem;
-    }
-
-    // 當有 ShowBorders class 時，子元素可以顯示 borders
-    &:global(.ShowBorders) {
-        // 留空，用於 CSS selector 匹配
+        border-radius: 0.5rem 0.5rem 0 0;
+        padding: 0 0.5rem;
     }
 }

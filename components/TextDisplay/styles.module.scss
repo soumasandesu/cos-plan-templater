@@ -4,13 +4,12 @@
     left: 0;
     touch-action: none;
     user-select: none;
+    border: 2px transparent dashed;
 
     // 只有當父元素有 .ShowBorders class 時先顯示 border
     &.ShowBorder {
-        border: 2px #0a0 dashed;
+        border-color: #0a0;
         background-color: rgba(255, 255, 255, 0.8);
-        padding: 0.5rem;
-        border-radius: 4px;
     }
 
     &.Selected {
@@ -26,7 +25,7 @@
     border-radius: 4px;
     padding: 1rem;
     min-width: 460px;
-    border-radius: 0 0 1rem 1rem;
+    border-radius: 0 0 0.5rem 0.5rem;
     z-index: 1;
 }
 

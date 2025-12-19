@@ -7,6 +7,10 @@
   "add_character_image": "新增角色圖片",
   "export_url": "匯出 URL",
   "export_url_copied": "URL 已複製到剪貼板！",
-  "import_error": "載入 template 失敗"
+  "import_error": "載入 template 失敗",
+  "background_hint_text": "白單",
+  "background_image_order_tip": "背景圖片順序",
+  "background_on_top": "放最頂",
+  "background_on_bottom": "放最底"
 }
 
