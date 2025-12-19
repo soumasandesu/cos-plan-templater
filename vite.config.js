@@ -12,7 +12,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@import "reset-css";`,
+        additionalData: `@use "reset-css";`,
       },
     },
   },
