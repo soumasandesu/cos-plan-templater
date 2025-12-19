@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useTemplate } from "../../context/TemplateContext";
 import styles from "./styles.module.scss";
 import { SUPPORTED_IMAGE_MIME_TYPES } from "../../extra/consts";
+import DialogHintUploadHosts from "./DialogHintUploadHosts";
 
 export default function ImageCardBackground({ children, drawer, showUnrenderedStyles, ...props }) {
     const fileIn = useRef();
@@ -11,6 +12,7 @@ export default function ImageCardBackground({ children, drawer, showUnrenderedSt
     const { state, actions } = useTemplate();
     const { t } = useTranslation();
     const [sourceMode, setSourceMode] = useState("file"); // "file" 或 "url"
+    const [showDialog, setShowDialog] = useState(false);
 
     function sauceChg() {
         const file = fileIn.current.files[0];
@@ -61,18 +63,37 @@ export default function ImageCardBackground({ children, drawer, showUnrenderedSt
                         ref={fileIn} 
                     />
                 ) : (
-                    <input 
-                        type="text" 
-                        placeholder={t("background_url_input_placeholder")}
-                        onBlur={handleUrlChange}
-                        onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                                handleUrlChange();
-                            }
-                        }}
-                        ref={urlIn}
-                        style={{ padding: "0.25rem 0.5rem", minWidth: "200px" }}
-                    />
+                    <>
+                        <input 
+                            type="text" 
+                            placeholder={t("background_url_input_placeholder")}
+                            onBlur={handleUrlChange}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    handleUrlChange();
+                                }
+                            }}
+                            ref={urlIn}
+                            style={{ margin: "0.5em 0", padding: 1, minWidth: "200px" }}
+                        />
+                        <button 
+                            type="button"
+                            onClick={() => setShowDialog(true)}
+                            title={t("upload_hosts_help_button")}
+                            style={{ 
+                                marginLeft: "0.5rem", 
+                                padding: "0.25rem 0.5rem",
+                                cursor: "pointer",
+                                background: "#007bff",
+                                color: "#fff",
+                                border: "none",
+                                borderRadius: "4px",
+                                fontSize: "0.875rem"
+                            }}
+                        >
+                            ?
+                        </button>
+                    </>
                 )}
                 <select
                     onChange={(e) => {
@@ -87,6 +108,10 @@ export default function ImageCardBackground({ children, drawer, showUnrenderedSt
                     <option value="bottom">{t("background_on_bottom")}</option>
                 </select>
             </div>
+            <DialogHintUploadHosts 
+                isOpen={showDialog} 
+                onClose={() => setShowDialog(false)} 
+            />
 		</div>
 	);
 }
