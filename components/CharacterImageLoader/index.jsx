@@ -151,7 +151,7 @@ export default function CharacterImageLoader({
     function handlePointerDown(e) {
         // 如果撳緊 toolbar 入面嘅元素，就唔好觸發拖動或選擇
         const target = e.target;
-        if (target.closest(`.${styles.Toolbar}`)) {
+        if (target.closest(`.${styles.ControlPanel}`)) {
             return;
         }
         
