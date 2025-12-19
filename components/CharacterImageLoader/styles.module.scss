@@ -69,6 +69,10 @@
             display: block;
         }
 
+        input[type="file"] {
+            width: 12rem;
+        }
+
         .RenderModeSelect {
             padding: 0.25rem 0.5rem;
             border: 1px solid #ccc;

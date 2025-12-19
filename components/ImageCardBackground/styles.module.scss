@@ -43,6 +43,10 @@
         background: #aaa;
         border-radius: 0.5rem 0.5rem 0 0;
         padding: 0 0.5rem;
+
+        > input[type="file"] {
+            width: 12rem;
+        }
     }
 
     > img {
