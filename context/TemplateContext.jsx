@@ -139,8 +139,12 @@ function templateReducer(state, action) {
             };
             
         case ActionTypes.LOAD_TEMPLATE:
+            // 確保載入的 template 有完整的結構
             return {
-                ...action.payload
+                background: action.payload.background || initialState.background,
+                characters: action.payload.characters || [],
+                texts: action.payload.texts || [],
+                selectedId: null // 載入時清除 selected
             };
             
         case ActionTypes.RESET_TEMPLATE:

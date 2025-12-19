@@ -27,7 +27,7 @@
     padding: 1rem;
     min-width: 460px;
     border-radius: 0 0 1rem 1rem;
-    z-index: 10;
+    z-index: 1;
 }
 
 .ControlRow {
@@ -155,7 +155,7 @@
     background: #0a0;
     cursor: e-resize;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
-    z-index: 10;
+    z-index: 2;
 }
 
 .ToggleButton {

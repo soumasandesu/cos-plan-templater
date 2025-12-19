@@ -67,6 +67,79 @@ const App = () => {
 		setIsExporting(false);
 	}
 
+	function exportTemplate() {
+		// 收集所有 template 數據
+		const templateData = {
+			background: {
+				imageSrc: state.background.imageSrc,
+				size: state.background.size
+			},
+			characters: state.characters.map(char => ({
+				id: char.id,
+				position: char.position,
+				size: char.size,
+				imageDataUrl: char.imageDataUrl,
+				imageRenderMode: char.imageRenderMode || "contain"
+			})),
+			texts: state.texts.map(text => ({
+				id: text.id,
+				position: text.position,
+				text: text.text,
+				fontFamily: text.fontFamily,
+				fontSize: text.fontSize,
+				isBold: text.isBold,
+				isItalic: text.isItalic,
+				isUnderline: text.isUnderline,
+				isStrikethrough: text.isStrikethrough,
+				color: text.color,
+				textAlign: text.textAlign || "left",
+				widthMode: text.widthMode || "auto",
+				width: text.width || 200,
+				inputType: text.inputType || "single"
+			}))
+		};
+
+		// 轉換成 JSON 並 base64 encode
+		const jsonString = JSON.stringify(templateData);
+		const encodedData = btoa(unescape(encodeURIComponent(jsonString)));
+		
+		// 生成 URL
+		const baseUrl = window.location.origin + window.location.pathname;
+		const url = `${baseUrl}?template=${encodedData}`;
+
+		// 複製到剪貼板
+		navigator.clipboard.writeText(url).then(() => {
+			alert(t("export_url_copied") || "URL 已複製到剪貼板！");
+		}).catch(err => {
+			console.error("Failed to copy URL:", err);
+			// Fallback: 顯示在 prompt
+			prompt(t("export_url") || "請複製以下 URL:", url);
+		});
+	}
+
+	// 檢查 URL query string 並載入 template
+	useEffect(() => {
+		const urlParams = new URLSearchParams(window.location.search);
+		const templateParam = urlParams.get("template");
+		
+		if (templateParam) {
+			try {
+				// Base64 decode 並 parse JSON
+				const decodedData = decodeURIComponent(escape(atob(templateParam)));
+				const templateData = JSON.parse(decodedData);
+				
+				// 載入 template
+				actions.loadTemplate(templateData);
+				
+				// 清除 URL 中的 query string（可選）
+				// window.history.replaceState({}, document.title, window.location.pathname);
+			} catch (error) {
+				console.error("Failed to load template from URL:", error);
+				alert(t("import_error") || "載入 template 失敗");
+			}
+		}
+	}, []); // 只在 mount 時執行一次
+
 	return (
 		<div className={styles.App}>
 			<div className={styles.Toolbar}>
@@ -78,7 +151,9 @@ const App = () => {
 					{ t("add_character_image") }
 				</button>
 				&nbsp;
-				<button id="save" onClick={saveImage}>{ t("output") }</button>
+				<button id="save" onClick={saveImage}>{ t("save_image") }</button>
+				&nbsp;
+				<button onClick={exportTemplate}>{ t("export_url") || "Export URL" }</button>
 			</div>
 			
 		    <ImageCardBackground

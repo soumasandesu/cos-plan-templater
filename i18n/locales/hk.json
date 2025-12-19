@@ -1,9 +1,12 @@
 {
   "_lang": "繁體中文",
   "character_count": "角色數量",
-  "output": "輸出",
+  "save_image": "保存圖片",
   "_out_filename": "output",
   "add_text": "新增文字",
-  "add_character_image": "新增角色圖片"
+  "add_character_image": "新增角色圖片",
+  "export_url": "匯出 URL",
+  "export_url_copied": "URL 已複製到剪貼板！",
+  "import_error": "載入 template 失敗"
 }
 

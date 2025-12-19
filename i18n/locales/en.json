@@ -1,9 +1,12 @@
 {
   "_lang": "English",
   "character_count": "Character Count",
-  "output": "Output",
+  "save_image": "Save Image",
   "_out_filename": "output",
   "add_text": "Add Text",
-  "add_character_image": "Add Character Image"
+  "add_character_image": "Add Character Image",
+  "export_url": "Export URL",
+  "export_url_copied": "URL copied to clipboard!",
+  "import_error": "Failed to load template"
 }
 
