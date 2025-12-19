@@ -50,13 +50,13 @@
         background: #fcc;
         border-radius: 0 0 0.5rem 0.5rem;
         display: flex;
-        align-items: center;
+        flex-wrap: wrap;
+        align-items: stretch;
         gap: 0.5rem;
         padding: 0.25rem;
 
         > input[type="file"] {
-            display: inline-block;
-            width: 12rem;
+            flex-grow: 8;
         }
 
         .RenderModeSelect {
@@ -66,14 +66,15 @@
             background: #fff;
             cursor: pointer;
             font-size: 0.875rem;
+            flex-grow: 6;
         }
 
         .DeleteButton {
             border: none;
             background: none;
             cursor: pointer;
-            display: inline-block;
             padding: 0.5rem;
+            flex: 1;
         }
     }
 
