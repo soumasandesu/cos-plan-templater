@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState, useEffect, useCallback } from 'react';
+import React, { Fragment, useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { originalToUrl, urlToOriginal } from "compact-base64";
 import pako from "pako";
@@ -239,54 +239,61 @@ const App = () => {
 		}
 	}, []); // 只在 mount 時執行一次
 
+	const [toolbarMaxWidth, setToolbarMaxWidth] = useState(0);
+	useEffect(() => {
+		setToolbarMaxWidth(drawer?.current?.offsetWidth);
+	}, [state.background.imageSrc]);
+
 	return (
 		<div className={styles.App}>
 			<div className={styles.Toolbar}>
-				<div className={styles.ToolbarLeft}>
-					<button onClick={() => actions.addTextDisplay()}>
-						{ t("add_text") }
-					</button>
-					&nbsp;
-					<button onClick={() => actions.addCharacter()}>
-						{ t("add_character_image") }
-					</button>
-					&nbsp;
-					<button
-						id="save"
-						onClick={saveImage}
-						disabled={!state.background.imageSrc}
-					>
-						{ t("save_image") }
-					</button>
-				</div>
-				<div className={styles.ToolbarRight}>
-					<label style={{ display: "inline-flex", alignItems: "center", gap: "0.4em" }}>
-						<input
-							type="checkbox"
-							id="showUnrenderedStyles"
-							checked={showUnrenderedStyles}
-							onChange={e => setShowUnrenderedStyles(e.target.checked)}
-						/>
-						{ t("toggle_unrendered_styles") }
-					</label>
-					&nbsp;
-					<button 
-						onClick={exportTemplate}
-						disabled={state.background.imageSrc && state.background.imageSrc.startsWith("data:")}
-						title={(state.background.imageSrc && state.background.imageSrc.startsWith("data:")) 
-							? t("export_url_disabled_tooltip") 
-							: t("export_url")}
-					>
-						{ t("export_url")}
-					</button>
-					&nbsp;
-					<button onClick={exportAsText}>
-						{ t("export_text") }
-					</button>
-					&nbsp;
-					<button onClick={() => setShowImportTextDialog(true)}>
-						{ t("import_text") }
-					</button>
+				<div className={styles.ToolbarInner} style={toolbarMaxWidth > 800 ? { maxWidth: toolbarMaxWidth } : {}}>
+					<div className={styles.ToolbarLeft}>
+						<button onClick={() => actions.addTextDisplay()}>
+							{ t("add_text") }
+						</button>
+						&nbsp;
+						<button onClick={() => actions.addCharacter()}>
+							{ t("add_character_image") }
+						</button>
+						&nbsp;
+						<button
+							id="save"
+							onClick={saveImage}
+							disabled={!state.background.imageSrc}
+						>
+							{ t("save_image") }
+						</button>
+					</div>
+					<div className={styles.ToolbarRight}>
+						<label style={{ display: "inline-flex", alignItems: "center", gap: "0.4em" }}>
+							<input
+								type="checkbox"
+								id="showUnrenderedStyles"
+								checked={showUnrenderedStyles}
+								onChange={e => setShowUnrenderedStyles(e.target.checked)}
+							/>
+							{ t("toggle_unrendered_styles") }
+						</label>
+						&nbsp;
+						<button 
+							onClick={exportTemplate}
+							disabled={state.background.imageSrc && state.background.imageSrc.startsWith("data:")}
+							title={(state.background.imageSrc && state.background.imageSrc.startsWith("data:")) 
+								? t("export_url_disabled_tooltip") 
+								: t("export_url")}
+						>
+							{ t("export_url")}
+						</button>
+						&nbsp;
+						<button onClick={exportAsText}>
+							{ t("export_text") }
+						</button>
+						&nbsp;
+						<button onClick={() => setShowImportTextDialog(true)}>
+							{ t("import_text") }
+						</button>
+					</div>
 				</div>
 			</div>
 			

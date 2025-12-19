@@ -2,13 +2,18 @@
     font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", "Heiti TC", "STHeiti", "Arial", sans-serif;
 
     .Toolbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         padding: 1rem;
         background: #f0f0f0;
         border-bottom: 1px solid #ccc;
         margin-bottom: 4rem;
+
+        .ToolbarInner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0 auto;
+            max-width: 800px;
+        }
 
         > .ToolbarLeft {
             display: flex;
