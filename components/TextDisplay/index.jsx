@@ -10,7 +10,7 @@ import styles from "./styles.module.scss";
 export default function TextDisplay({
     className,
     draggable = true,
-    showBorder = true,
+    showUnrenderedStyles = true,
     id,
     registerRef,
     unregisterRef,
@@ -144,10 +144,9 @@ export default function TextDisplay({
             ref={componentRef}
             className={ClassNames(
                 styles.TextDisplay, 
-                { 
-                    [styles.Draggable]: draggable,
+                {
                     [styles.Selected]: isSelected,
-                    [styles.ShowBorder]: showBorder,
+                    [styles.ShowBorder]: showUnrenderedStyles,
                 },
                 className,
             )}

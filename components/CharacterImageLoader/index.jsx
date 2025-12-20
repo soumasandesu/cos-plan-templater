@@ -12,7 +12,7 @@ export default function CharacterImageLoader({
     id,
     index,
     draggable = true,
-    showBorder = true,
+    showUnrenderedStyles = true,
     registerRef,
     unregisterRef,
     ...props
@@ -229,9 +229,8 @@ export default function CharacterImageLoader({
             className={ClassNames(
                 styles.CharacterImageLoader, 
                 { 
-                    [styles.Draggable]: draggable,
                     [styles.Selected]: isSelected,
-                    [styles.ShowBorder]: showBorder,
+                    [styles.ShowBorder]: showUnrenderedStyles,
                 },
                 className,
             )}
@@ -245,7 +244,7 @@ export default function CharacterImageLoader({
             onPointerLeave={handlePointerUp}
             {...props}
         >
-            {index && (
+            {index && showUnrenderedStyles && (
                 <div className={styles.Index}>
                     {index}
                 </div>

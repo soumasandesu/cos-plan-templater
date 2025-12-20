@@ -70,7 +70,7 @@ export default function ImageCardBackground({
                 {...imgProps}
             />
 
-            {!state.background.imageSrc && (
+            {!state.background.imageSrc && showUnrenderedStyles && (
                 <div className={styles.HintText}>
                     { t("background_hint_text") }
                 </div>

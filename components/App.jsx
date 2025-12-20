@@ -318,7 +318,7 @@ const App = () => {
 						index={index + 1}
 						registerRef={registerRef}
 						unregisterRef={unregisterRef}
-						showBorder={showUnrenderedStyles}
+						showUnrenderedStyles={showUnrenderedStyles}
 					/>
 				))
 			}
@@ -333,7 +333,7 @@ const App = () => {
 						id={id} 
 						registerRef={registerRef}
 						unregisterRef={unregisterRef}
-						showBorder={showUnrenderedStyles}
+						showUnrenderedStyles={showUnrenderedStyles}
 					/>
 				))
 			}
