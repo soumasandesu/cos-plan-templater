@@ -76,7 +76,9 @@ const App = () => {
 		// 收集所有 template 數據
 		const templateData = {
 			background: {
-				imageSrc: state.background.imageSrc
+				imageSrc: state.background.imageSrc,
+				type: state.background.type,
+				google_drive_file_id: state.background.google_drive_file_id
 			},
 			characters: state.characters.map(char => ({
 				id: char.id,
@@ -134,6 +136,8 @@ const App = () => {
 		return {
 			background: {
 				imageSrc: state.background.imageSrc,
+				type: state.background.type,
+				google_drive_file_id: state.background.google_drive_file_id,
 				size: state.background.size
 			},
 			characters: state.characters.map(char => ({
@@ -251,7 +255,7 @@ const App = () => {
 				onExportUrl={exportTemplate}
 				onExportText={exportAsText}
 				onImportText={() => setShowImportTextDialog(true)}
-				isSaveDisabled={!state.background.imageSrc}
+				isSaveDisabled={!state.background.imageSrc && !state.background.google_drive_file_id}
 				exportUrlDisabled={state.background.imageSrc && state.background.imageSrc.startsWith("data:")}
 				exportUrlTooltip={(state.background.imageSrc && state.background.imageSrc.startsWith("data:")) 
 					? t("export_url_disabled_tooltip") 

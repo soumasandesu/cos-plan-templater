@@ -20,9 +20,10 @@ export default function ImageCardBackground({
 }) {
     const fileIn = useRef();
     const urlIn = useRef();
+    const googleDriveUrlIn = useRef();
     const { state, actions } = useTemplate();
     const { t } = useTranslation();
-    const [sourceMode, setSourceMode] = useState("file"); // "file" 或 "url"
+    const [sourceMode, setSourceMode] = useState("file"); // "file", "url", 或 "google_drive"
     const [showDialog, setShowDialog] = useState(false);
     const hiddenImgRef = useRef(null);
     const [blobImageSrc, setBlobImageSrc] = useState(null);
@@ -37,7 +38,7 @@ export default function ImageCardBackground({
         const fr = new FileReader();
         fr.addEventListener("load", () => {
             // fr.result 就係個 data URL / base64 URL
-            actions.setBackgroundImage(fr.result);
+            actions.setBackgroundImage(fr.result, "file");
         });
         fr.readAsDataURL(file);
     }
@@ -45,7 +46,29 @@ export default function ImageCardBackground({
     function handleUrlChange() {
         const url = urlIn.current.value.trim();
         if (url) {
-            actions.setBackgroundImage(url);
+            actions.setBackgroundImage(url, "url");
+        }
+    }
+
+    function handleGoogleDriveUrlChange() {
+        const url = googleDriveUrlIn.current.value.trim();
+        if (!url) {
+            return;
+        }
+        
+        // 解析 Google Drive URL 提取 file ID
+        // 支援格式：
+        // - https://drive.google.com/file/d/FILE_ID/view
+        // - https://drive.google.com/open?id=FILE_ID
+        // - https://drive.google.com/file/d/FILE_ID/edit
+        const driveUrlPattern = /drive\.google\.com\/(?:file\/d\/|open\?id=)([a-zA-Z0-9_-]+)/;
+        const match = url.match(driveUrlPattern);
+
+        if (match) {
+            const fileId = match[1];
+            actions.setBackgroundImage(null, "google_drive", fileId);
+        } else {
+            alert(t("google_drive_url_invalid") || "無效的 Google Drive URL，請確認格式正確");
         }
     }
 
@@ -100,7 +123,7 @@ export default function ImageCardBackground({
         }
     }
 
-    // 當 imageSrc 改變時，重置 blobImageSrc
+    // 當 imageSrc 或 google_drive_file_id 改變時，重置 blobImageSrc
     useEffect(() => {
         setBlobImageSrc(null);
         
@@ -108,7 +131,16 @@ export default function ImageCardBackground({
         if (state.background.imageSrc && state.background.imageSrc.startsWith("data:")) {
             setBlobImageSrc(state.background.imageSrc);
         }
-    }, [state.background.imageSrc]);
+        
+        // 如果係 Google Drive，需要載入圖片
+        if (state.background.type === "google_drive" && state.background.google_drive_file_id) {
+            const googleDriveUrl = `https://lh3.googleusercontent.com/d/${state.background.google_drive_file_id}=w1000?authuser=0`;
+            // 觸發 hidden img 載入
+            if (hiddenImgRef.current) {
+                hiddenImgRef.current.src = googleDriveUrl;
+            }
+        }
+    }, [state.background.imageSrc, state.background.type, state.background.google_drive_file_id]);
 
     // 清理 blob URL
     useEffect(() => {
@@ -147,6 +179,18 @@ export default function ImageCardBackground({
                 />
             )}
 
+            {/* Hidden img 用嚟載入 Google Drive 圖片 */}
+            {state.background.type === "google_drive" && state.background.google_drive_file_id && (
+                <img
+                    ref={hiddenImgRef}
+                    src={`https://lh3.googleusercontent.com/d/${state.background.google_drive_file_id}=w1000?authuser=0`}
+                    crossOrigin="anonymous"
+                    onLoad={handleHiddenImageLoad}
+                    alt=""
+                    style={{ display: "none" }}
+                />
+            )}
+
             {/* 顯示用嘅 img，用 blob URL 或 data URL */}
             {blobImageSrc && (
                 <img
@@ -161,7 +205,22 @@ export default function ImageCardBackground({
                 />
             )}
 
-            {!state.background.imageSrc && showUnrenderedStyles && (
+            {/* Google Drive 圖片直接顯示（如果未轉換成 blob） */}
+            {state.background.type === "google_drive" && state.background.google_drive_file_id && !blobImageSrc && (
+                <img
+                    id="google-drive-img"
+                    className={ClassNames({
+                        imgClassName,
+                        [styles.SeeThrough]: state.background.imageOrder === "before_characters",
+                    })}
+                    src={`https://lh3.googleusercontent.com/d/${state.background.google_drive_file_id}=w1000?authuser=0`}
+                    crossOrigin="anonymous"
+                    alt=""
+                    {...imgProps}
+                />
+            )}
+
+            {!state.background.imageSrc && !state.background.google_drive_file_id && showUnrenderedStyles && (
                 <div className={styles.HintText}>
                     { t("background_hint_text") }
                 </div>
@@ -174,6 +233,7 @@ export default function ImageCardBackground({
                 >
                     <option value="file">{t("background_source_file")}</option>
                     <option value="url">{t("background_source_url")}</option>
+                    <option value="google_drive">{t("background_source_google_drive")}</option>
                 </select>
                 {sourceMode === "file" ? (
                     <input 
@@ -182,7 +242,7 @@ export default function ImageCardBackground({
                         onChange={sauceChg} 
                         ref={fileIn} 
                     />
-                ) : (
+                ) : sourceMode === "url" ? (
                     <>
                         <input 
                             type="text" 
@@ -214,6 +274,19 @@ export default function ImageCardBackground({
                             ?
                         </button>
                     </>
+                ) : (
+                    <input 
+                        type="text" 
+                        placeholder={t("google_drive_url_placeholder")}
+                        onBlur={handleGoogleDriveUrlChange}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                handleGoogleDriveUrlChange();
+                            }
+                        }}
+                        ref={googleDriveUrlIn}
+                        style={{ margin: "0.5em 0", padding: 1, minWidth: "200px" }}
+                    />
                 )}
                 <select
                     onChange={(e) => {
@@ -227,10 +300,10 @@ export default function ImageCardBackground({
                     <option value="before_characters">{t("background_on_top_of_characters")}</option>
                     <option value="bottom">{t("background_on_bottom")}</option>
                 </select>
-                {state.background.imageSrc && (
+                {(state.background.imageSrc || state.background.google_drive_file_id) && (
                     <button
                         type="button"
-                        onClick={() => actions.setBackgroundImage(null)}
+                        onClick={() => actions.setBackgroundImage(null, null, null)}
                         title={t("clear_background")}
                         style={{
                             marginLeft: "0.5rem",

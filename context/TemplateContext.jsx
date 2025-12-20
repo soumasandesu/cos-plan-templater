@@ -5,7 +5,9 @@ const initialState = {
     // 背景設定
     background: {
         imageSrc: null, // dataUrl/base64
-        imageOrder: "bottom" // top, bottom
+        type: null, // "file", "url", "google_drive"
+        google_drive_file_id: null, // Google Drive file ID
+        imageOrder: "bottom", // top, bottom
     },
     
     // CharacterImageLoader 列表
@@ -52,7 +54,9 @@ function templateReducer(state, action) {
                 ...state,
                 background: {
                     ...state.background,
-                    imageSrc: action.payload
+                    imageSrc: action.payload.imageSrc,
+                    type: action.payload.type,
+                    google_drive_file_id: action.payload.google_drive_file_id || null
                 }
             };
             
@@ -207,8 +211,15 @@ export function TemplateProvider({ children }) {
     // Actions
     const actions = {
         // Background
-        setBackgroundImage: useCallback((imageSrc) => {
-            dispatch({ type: ActionTypes.SET_BACKGROUND_IMAGE, payload: imageSrc });
+        setBackgroundImage: useCallback((imageSrc, type, google_drive_file_id) => {
+            dispatch({ 
+                type: ActionTypes.SET_BACKGROUND_IMAGE, 
+                payload: { 
+                    imageSrc, 
+                    type,
+                    google_drive_file_id
+                } 
+            });
         }, []),
 
         setBackgroundImageOrder: useCallback((imageOrder) => {
