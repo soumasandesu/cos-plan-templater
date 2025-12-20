@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useTemplate } from "../../context/TemplateContext";
@@ -24,6 +24,9 @@ export default function ImageCardBackground({
     const { t } = useTranslation();
     const [sourceMode, setSourceMode] = useState("file"); // "file" 或 "url"
     const [showDialog, setShowDialog] = useState(false);
+    const hiddenImgRef = useRef(null);
+    const [blobImageSrc, setBlobImageSrc] = useState(null);
+    const blobUrlRef = useRef(null);
 
     function sauceChg() {
         const file = fileIn.current.files[0];
@@ -46,6 +49,77 @@ export default function ImageCardBackground({
         }
     }
 
+    // 將圖片轉換成 blob
+    function convertImageToBlob(imgElement) {
+        return new Promise((resolve, reject) => {
+            try {
+                const canvas = document.createElement("canvas");
+                canvas.width = imgElement.naturalWidth;
+                canvas.height = imgElement.naturalHeight;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(imgElement, 0, 0);
+                
+                canvas.toBlob((blob) => {
+                    if (blob) {
+                        // 清理舊的 blob URL
+                        if (blobUrlRef.current) {
+                            URL.revokeObjectURL(blobUrlRef.current);
+                        }
+                        
+                        const blobUrl = URL.createObjectURL(blob);
+                        blobUrlRef.current = blobUrl;
+                        resolve(blobUrl);
+                    } else {
+                        reject(new Error("Failed to convert canvas to blob"));
+                    }
+                }, "image/png");
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    // 處理 hidden img 載入完成
+    async function handleHiddenImageLoad(e) {
+        const img = e.target;
+        
+        // 如果係 data URL，直接使用，唔需要轉換
+        if (state.background.imageSrc && state.background.imageSrc.startsWith("data:")) {
+            setBlobImageSrc(state.background.imageSrc);
+            return;
+        }
+
+        // 如果係外部 URL，轉換成 blob
+        try {
+            const blobUrl = await convertImageToBlob(img);
+            setBlobImageSrc(blobUrl);
+        } catch (error) {
+            console.error("Failed to convert image to blob:", error);
+            // 如果轉換失敗，使用原始 URL
+            setBlobImageSrc(state.background.imageSrc);
+        }
+    }
+
+    // 當 imageSrc 改變時，重置 blobImageSrc
+    useEffect(() => {
+        setBlobImageSrc(null);
+        
+        // 如果係 data URL，直接使用
+        if (state.background.imageSrc && state.background.imageSrc.startsWith("data:")) {
+            setBlobImageSrc(state.background.imageSrc);
+        }
+    }, [state.background.imageSrc]);
+
+    // 清理 blob URL
+    useEffect(() => {
+        return () => {
+            if (blobUrlRef.current) {
+                URL.revokeObjectURL(blobUrlRef.current);
+                blobUrlRef.current = null;
+            }
+        };
+    }, []);
+
 	return (
 		<div
             className={ClassNames(styles.ImageCardBackground, {
@@ -60,15 +134,30 @@ export default function ImageCardBackground({
                 { children }
             </div>
 
-			<img
-                className={ClassNames({
-                    imgClassName,
-                    [styles.SeeThrough]: state.background.imageOrder === "before_characters",
-                })}
-                src={state.background.imageSrc || ""}
-                alt=""
-                {...imgProps}
-            />
+			{/* Hidden img 用嚟載入外部圖片，載入完成後轉成 blob */}
+            {state.background.imageSrc && !state.background.imageSrc.startsWith("data:") && (
+                <img
+                    ref={hiddenImgRef}
+                    src={state.background.imageSrc}
+                    crossOrigin="anonymous"
+                    onLoad={handleHiddenImageLoad}
+                    alt=""
+                    style={{ display: "none" }}
+                />
+            )}
+
+            {/* 顯示用嘅 img，用 blob URL 或 data URL */}
+            {blobImageSrc && (
+                <img
+                    className={ClassNames({
+                        imgClassName,
+                        [styles.SeeThrough]: state.background.imageOrder === "before_characters",
+                    })}
+                    src={blobImageSrc}
+                    alt=""
+                    {...imgProps}
+                />
+            )}
 
             {!state.background.imageSrc && showUnrenderedStyles && (
                 <div className={styles.HintText}>
