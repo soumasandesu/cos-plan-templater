@@ -4,10 +4,10 @@
     margin-bottom: 4rem;
     color: #eee;
 
-    &, button, input, label {
+    &, button, input, label, select {
         font-size: .8rem !important;
     }
-    button {
+    button, select {
         padding: 0.5rem;
         border: {
             width: 1px;
@@ -17,11 +17,19 @@
         }
         background: #757575;
         color: #eee;
+    }
+    option:hover {
+        background: #868686;
+        color: #fff;
+    }
 
-        &:hover {
-            background: #868686;
-            color: #fff;
-        }
+    .ToolbarFloatRight {
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
     }
 
     .ToolbarInner {

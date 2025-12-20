@@ -15,10 +15,36 @@ export default function Toolbar({
     exportUrlTooltip,
     maxWidth
 }) {
-    const { t } = useTranslation();
+    const { t, i18n: i18nInstance } = useTranslation();
+    
+    // 獲取所有已註冊的 locales
+    const availableLocales = Object.keys(i18nInstance.options.resources || {});
+    
+    const handleLocaleChange = (e) => {
+        const newLocale = e.target.value;
+        i18nInstance.changeLanguage(newLocale);
+    };
+    
+    // 獲取指定 locale 的語言名稱
+    const getLocaleName = (localeCode) => {
+        return t("_lang", { lng: localeCode }) || localeCode;
+    };
 
     return (
         <div className={styles.Toolbar}>
+            <div className={styles.ToolbarFloatRight}>
+                <select
+                    className={styles.LanguageSelect}
+                    value={i18nInstance.language}
+                    onChange={handleLocaleChange}
+                >
+                    {availableLocales.map((localeCode) => (
+                        <option key={localeCode} value={localeCode}>
+                            {getLocaleName(localeCode)}
+                        </option>
+                    ))}
+                </select>
+            </div>
             <div className={styles.ToolbarInner} style={maxWidth > 800 ? { maxWidth: maxWidth } : {}}>
                 <div className={styles.ToolbarLeft}>
                     <button onClick={onAddText}>
