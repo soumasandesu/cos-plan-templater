@@ -68,7 +68,7 @@ const App = () => {
 			quality: .95,
 		});
 
-		FileSaver.saveAs(dataUrl, `${t("_out_filename")}.jpg`);
+		FileSaver.saveAs(dataUrl, `${t("app._out_filename")}.jpg`);
 		setShowUnrenderedStyles(true);
 	}
 
@@ -124,7 +124,7 @@ const App = () => {
 
 		// 複製到剪貼板
 		navigator.clipboard.writeText(url).then(() => {
-			alert(t("export_url_copied") || "URL 已複製到剪貼板！");
+			alert(t("toolbar.export_url_copied") || "URL 已複製到剪貼板！");
 		}).catch(err => {
 			console.error("Failed to copy URL:", err);
 			// Fallback: 顯示在 prompt
@@ -204,10 +204,10 @@ const App = () => {
 	function handleImportTemplate(templateData) {
 		try {
 			actions.loadTemplate(templateData);
-			alert(t("import_text_success") || "Template 載入成功！");
+			alert(t("dialog_import_text.success") || "Template 載入成功！");
 		} catch (error) {
 			console.error("Failed to import template:", error);
-			alert(t("import_text_error_unknown") || "載入 template 失敗");
+			alert(t("dialog_import_text.error_unknown") || "載入 template 失敗");
 		}
 	}
 
@@ -258,8 +258,8 @@ const App = () => {
 				isSaveDisabled={!state.background.imageSrc && !state.background.google_drive_file_id}
 				exportUrlDisabled={state.background.imageSrc && state.background.imageSrc.startsWith("data:")}
 				exportUrlTooltip={(state.background.imageSrc && state.background.imageSrc.startsWith("data:")) 
-					? t("export_url_disabled_tooltip") 
-					: t("export_url")}
+					? t("toolbar.export_url_disabled_tooltip") 
+					: t("toolbar.export_url")}
 				maxWidth={toolbarMaxWidth}
 			/>
 			

@@ -22,17 +22,17 @@ export default function Toolbar({
             <div className={styles.ToolbarInner} style={maxWidth > 800 ? { maxWidth: maxWidth } : {}}>
                 <div className={styles.ToolbarLeft}>
                     <button onClick={onAddText}>
-                        {t("add_text")}
+                        {t("toolbar.add_text")}
                     </button>
                     <button onClick={onAddCharacter}>
-                        {t("add_character_image")}
+                        {t("toolbar.add_character_image")}
                     </button>
                     <button
                         id="save"
                         onClick={onSaveImage}
                         disabled={isSaveDisabled}
                     >
-                        {t("save_image")}
+                        {t("toolbar.save_image")}
                     </button>
                 </div>
                 <div className={styles.ToolbarRight}>
@@ -43,20 +43,20 @@ export default function Toolbar({
                             checked={showUnrenderedStyles}
                             onChange={e => onToggleUnrenderedStyles(e.target.checked)}
                         />
-                        {t("toggle_unrendered_styles")}
+                        {t("toolbar.toggle_unrendered_styles")}
                     </label>
                     <button 
                         onClick={onExportUrl}
                         disabled={exportUrlDisabled}
                         title={exportUrlTooltip}
                     >
-                        {t("export_url")}
+                        {t("toolbar.export_url")}
                     </button>
                     <button onClick={onExportText}>
-                        {t("export_text")}
+                        {t("toolbar.export_text")}
                     </button>
                     <button onClick={onImportText}>
-                        {t("import_text")}
+                        {t("toolbar.import_text")}
                     </button>
                 </div>
             </div>

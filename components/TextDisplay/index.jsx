@@ -173,7 +173,7 @@ export default function TextDisplay({
                                 e.stopPropagation();
                                 actions.cloneTextDisplay(id);
                             }}
-                            title={t("clone")}
+                            title={t("text_display.clone")}
                         >
                             📋
                         </button>
@@ -183,7 +183,7 @@ export default function TextDisplay({
                                 e.stopPropagation();
                                 actions.removeTextDisplay(id);
                             }}
-                            title={t("delete")}
+                            title={t("text_display.delete")}
                         >
                             🗑️
                         </button>
@@ -219,9 +219,9 @@ export default function TextDisplay({
                             }}
                             onPointerDown={(e) => e.stopPropagation()}
                             onPointerMove={(e) => e.stopPropagation()}
-                            title={textData.inputType === "single" ? t("toggle_multi_line") : t("toggle_single_line")}
+                            title={textData.inputType === "single" ? t("text_display.toggle_multi_line") : t("text_display.toggle_single_line")}
                         >
-                            {textData.inputType === "single" ? t("multi_line") : t("single_line")}
+                            {textData.inputType === "single" ? t("text_display.multi_line") : t("text_display.single_line")}
                         </button>
                     </div>
                     
@@ -233,9 +233,9 @@ export default function TextDisplay({
                             onPointerMove={(e) => e.stopPropagation()}
                             className={styles.Select}
                         >
-                            <option value="left">{t("left")}</option>
-                            <option value="center">{t("center")}</option>
-                            <option value="right">{t("right")}</option>
+                            <option value="left">{t("text_display.left")}</option>
+                            <option value="center">{t("text_display.center")}</option>
+                            <option value="right">{t("text_display.right")}</option>
                         </select>
                         <select
                             value={textData.widthMode || "auto"}
@@ -244,8 +244,8 @@ export default function TextDisplay({
                             onPointerMove={(e) => e.stopPropagation()}
                             className={styles.Select}
                         >
-                            <option value="auto">{t("auto_width")}</option>
-                            <option value="fixed">{t("fixed_width")}</option>
+                            <option value="auto">{t("text_display.auto_width")}</option>
+                            <option value="fixed">{t("text_display.fixed_width")}</option>
                         </select>
                     </div>
                     
@@ -290,7 +290,7 @@ export default function TextDisplay({
                             }}
                             onPointerDown={(e) => e.stopPropagation()}
                             onPointerMove={(e) => e.stopPropagation()}
-                            title={t("bold")}
+                            title={t("text_display.bold")}
                         >
                             B
                         </button>
@@ -302,7 +302,7 @@ export default function TextDisplay({
                             }}
                             onPointerDown={(e) => e.stopPropagation()}
                             onPointerMove={(e) => e.stopPropagation()}
-                            title={t("italic")}
+                            title={t("text_display.italic")}
                         >
                             I
                         </button>
@@ -314,7 +314,7 @@ export default function TextDisplay({
                             }}
                             onPointerDown={(e) => e.stopPropagation()}
                             onPointerMove={(e) => e.stopPropagation()}
-                            title={t("underline")}
+                            title={t("text_display.underline")}
                         >
                             U
                         </button>
@@ -326,7 +326,7 @@ export default function TextDisplay({
                             }}
                             onPointerDown={(e) => e.stopPropagation()}
                             onPointerMove={(e) => e.stopPropagation()}
-                            title={t("strikethrough")}
+                            title={t("text_display.strikethrough")}
                         >
                             S
                         </button>
@@ -352,7 +352,7 @@ export default function TextDisplay({
                     whiteSpace: textData.inputType === "multi" ? "pre-wrap" : "nowrap"
                 }}
             >
-                {textData.text || t("enter_text")}
+                {textData.text || t("text_display.enter_text")}
             </div>
             {isSelected && textData.widthMode === "fixed" && (
                 <div

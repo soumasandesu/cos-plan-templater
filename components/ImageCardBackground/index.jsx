@@ -68,7 +68,7 @@ export default function ImageCardBackground({
             const fileId = match[1];
             actions.setBackgroundImage(null, "google_drive", fileId);
         } else {
-            alert(t("google_drive_url_invalid") || "無效的 Google Drive URL，請確認格式正確");
+            alert(t("google_drive.url_invalid") || "無效的 Google Drive URL，請確認格式正確");
         }
     }
 
@@ -128,7 +128,7 @@ export default function ImageCardBackground({
 
     // 處理 hidden img 載入錯誤
     function handleHiddenImageError(e) {
-        const errorMessage = t("background_image_load_error") || "圖片載入失敗";
+        const errorMessage = t("image_card_background.image_load_error") || "圖片載入失敗";
         actions.setBackgroundImageError(errorMessage);
         console.error("Background image load error:", e);
     }
@@ -234,7 +234,7 @@ export default function ImageCardBackground({
 
             {!state.background.imageSrc && !state.background.google_drive_file_id && showUnrenderedStyles && (
                 <div className={styles.HintText}>
-                    { t("background_hint_text") }
+                    { t("image_card_background.hint_text") }
                 </div>
             )}
             <div className={styles.Toolbar}>
@@ -243,9 +243,9 @@ export default function ImageCardBackground({
                     onChange={(e) => setSourceMode(e.target.value)}
                     style={{ marginRight: "0.5rem" }}
                 >
-                    <option value="file">{t("background_source_file")}</option>
-                    <option value="url">{t("background_source_url")}</option>
-                    <option value="google_drive">{t("background_source_google_drive")}</option>
+                    <option value="file">{t("image_card_background.source_file")}</option>
+                    <option value="url">{t("image_card_background.source_url")}</option>
+                    <option value="google_drive">{t("image_card_background.source_google_drive")}</option>
                 </select>
                 {sourceMode === "file" ? (
                     <input 
@@ -258,7 +258,7 @@ export default function ImageCardBackground({
                     <>
                         <input 
                             type="text" 
-                            placeholder={t("background_url_input_placeholder")}
+                            placeholder={t("image_card_background.url_input_placeholder")}
                             onBlur={handleUrlChange}
                             onKeyDown={(e) => {
                                 if (e.key === "Enter") {
@@ -271,7 +271,7 @@ export default function ImageCardBackground({
                         <button 
                             type="button"
                             onClick={() => setShowDialog(true)}
-                            title={t("upload_hosts_help_button")}
+                            title={t("dialog_hint_upload_hosts.help_button")}
                             style={{ 
                                 marginLeft: "0.5rem", 
                                 padding: "0.25rem 0.5rem",
@@ -289,7 +289,7 @@ export default function ImageCardBackground({
                 ) : (
                     <input 
                         type="text" 
-                        placeholder={t("google_drive_url_placeholder")}
+                        placeholder={t("google_drive.url_placeholder")}
                         onBlur={handleGoogleDriveUrlChange}
                         onKeyDown={(e) => {
                             if (e.key === "Enter") {
@@ -307,16 +307,16 @@ export default function ImageCardBackground({
                     }}
                     value={state.background.imageOrder}
                     style={{ marginLeft: "0.5rem" }}
-                    title={t("background_image_order_tip")}
+                    title={t("image_card_background.image_order_tip")}
                 >
-                    <option value="before_characters">{t("background_on_top_of_characters")}</option>
-                    <option value="bottom">{t("background_on_bottom")}</option>
+                    <option value="before_characters">{t("image_card_background.on_top_of_characters")}</option>
+                    <option value="bottom">{t("image_card_background.on_bottom")}</option>
                 </select>
                 {(state.background.imageSrc || state.background.google_drive_file_id) && (
                     <button
                         type="button"
                         onClick={() => actions.setBackgroundImage(null, null, null)}
-                        title={t("clear_background")}
+                        title={t("image_card_background.clear")}
                         style={{
                             marginLeft: "0.5rem",
                             padding: "0.25rem",
@@ -328,7 +328,7 @@ export default function ImageCardBackground({
                             fontSize: "0.875rem"
                         }}
                     >
-                        {t("clear_background")}
+                        {t("image_card_background.clear")}
                     </button>
                 )}
             </div>

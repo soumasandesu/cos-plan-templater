@@ -1,69 +1,95 @@
 {
   "_lang": "繁體中文",
-  "character_count": "角色數量",
-  "save_image": "保存圖片",
-  "_out_filename": "output",
-  "add_text": "新增文字",
-  "add_character_image": "新增角色圖片",
-  "export_url": "匯出 URL",
-  "export_url_copied": "URL 已複製到剪貼板！",
-  "export_url_disabled_tooltip": "只限外部 URL 先可以匯出",
-  "export_text": "匯出文字",
-  "export_text_title": "匯出 Template 資料",
-  "export_text_description": "以下係 template 嘅 JSON 資料，你可以複製後保存或分享：",
-  "export_text_copy_button": "複製",
-  "export_text_close_button": "關閉",
-  "export_text_copied": "已複製到剪貼板！",
-  "export_text_use_base64": "使用 Base64 壓縮 (Pako)",
-  "import_text": "匯入文字",
-  "import_text_title": "匯入 Template 資料",
-  "import_text_description": "請貼上 template 嘅 JSON 資料或 Base64 編碼字串：",
-  "import_text_placeholder": "貼上 JSON 或 Base64 字串...",
-  "import_text_button": "匯入",
-  "import_text_close_button": "關閉",
-  "import_text_success": "Template 載入成功！",
-  "import_text_error_empty": "請輸入 template 資料",
-  "import_text_error_invalid": "無法解析 template 資料，請確認格式正確",
-  "import_text_error_unknown": "載入 template 失敗",
-  "import_error": "載入 template 失敗",
-  "background_hint_text": "背景圖片",
-  "background_image_order_tip": "背景圖片順序",
-  "background_on_top_of_characters": "在角色之前",
-  "background_on_bottom": "放最底",
-  "background_source_file": "載入檔案",
-  "background_source_url": "外部 URL",
-  "background_source_google_drive": "Google Drive",
-  "background_url_input_placeholder": "輸入圖片 URL",
-  "google_drive_url_placeholder": "輸入 Google Drive URL",
-  "google_drive_url_invalid": "無效的 Google Drive URL，請確認格式正確",
-  "upload_hosts_title": "推薦圖片上傳服務",
-  "upload_hosts_description": "你可以將圖片上傳到以下服務，然後使用外部 URL 載入：",
-  "upload_host_imageshack_desc": "免費圖片上傳服務",
-  "upload_host_imgur_desc": "熱門圖片分享平台",
-  "upload_host_imgbb_desc": "簡單易用嘅圖片上傳服務",
-  "upload_hosts_help_button": "查看推薦上傳服務",
-  "clone": "複製",
-  "delete": "刪除",
-  "render_mode_contain": "包含",
-  "render_mode_cover": "覆蓋",
-  "render_mode_fill": "填滿",
-  "render_mode_none": "原始大小",
-  "toggle_unrendered_styles": "顯示不渲染的樣式",
-  "toggle_multi_line": "切換到多行",
-  "toggle_single_line": "切換到單行",
-  "multi_line": "多行",
-  "single_line": "單行",
-  "left": "靠左",
-  "center": "置中",
-  "right": "靠右",
-  "auto_width": "自動寬度",
-  "fixed_width": "固定寬度",
-  "bold": "粗體",
-  "italic": "斜體",
-  "underline": "底線",
-  "strikethrough": "刪除線",
-  "enter_text": "輸入文字",
-  "clear_background": "清空背景",
-  "background_image_load_error": "圖片載入失敗"
+  
+  "app": {
+    "_out_filename": "output",
+    "character_count": "角色數量"
+  },
+  
+  "toolbar": {
+    "add_text": "新增文字",
+    "add_character_image": "新增角色圖片",
+    "save_image": "保存圖片",
+    "toggle_unrendered_styles": "顯示不渲染的樣式",
+    "export_url": "匯出 URL",
+    "export_url_copied": "URL 已複製到剪貼板！",
+    "export_url_disabled_tooltip": "只限外部 URL 先可以匯出",
+    "export_text": "匯出文字",
+    "import_text": "匯入文字"
+  },
+  
+  "dialog_export_text": {
+    "title": "匯出 Template 資料",
+    "description": "以下係 template 嘅 JSON 資料，你可以複製後保存或分享：",
+    "copy_button": "複製",
+    "close_button": "關閉",
+    "copied": "已複製到剪貼板！",
+    "use_base64": "使用 Base64 壓縮 (Pako)"
+  },
+  
+  "dialog_import_text": {
+    "title": "匯入 Template 資料",
+    "description": "請貼上 template 嘅 JSON 資料或 Base64 編碼字串：",
+    "placeholder": "貼上 JSON 或 Base64 字串...",
+    "button": "匯入",
+    "close_button": "關閉",
+    "success": "Template 載入成功！",
+    "error_empty": "請輸入 template 資料",
+    "error_invalid": "無法解析 template 資料，請確認格式正確",
+    "error_unknown": "載入 template 失敗",
+    "error": "載入 template 失敗"
+  },
+  
+  "image_card_background": {
+    "hint_text": "背景圖片",
+    "image_order_tip": "背景圖片順序",
+    "on_top_of_characters": "在角色之前",
+    "on_bottom": "放最底",
+    "source_file": "載入檔案",
+    "source_url": "外部 URL",
+    "source_google_drive": "Google Drive",
+    "url_input_placeholder": "輸入圖片 URL",
+    "image_load_error": "圖片載入失敗",
+    "clear": "清空背景"
+  },
+  
+  "dialog_hint_upload_hosts": {
+    "title": "推薦圖片上傳服務",
+    "description": "你可以將圖片上傳到以下服務，然後使用外部 URL 載入：",
+    "imageshack_desc": "免費圖片上傳服務",
+    "imgur_desc": "熱門圖片分享平台",
+    "imgbb_desc": "簡單易用嘅圖片上傳服務",
+    "help_button": "查看推薦上傳服務"
+  },
+  
+  "google_drive": {
+    "url_placeholder": "輸入 Google Drive URL",
+    "url_invalid": "無效的 Google Drive URL，請確認格式正確"
+  },
+  
+  "character_image_loader": {
+    "render_mode_contain": "包含",
+    "render_mode_cover": "覆蓋",
+    "render_mode_fill": "填滿",
+    "render_mode_none": "原始大小",
+    "clone": "複製",
+    "delete": "刪除"
+  },
+  
+  "text_display": {
+    "enter_text": "輸入文字",
+    "toggle_multi_line": "切換到多行",
+    "toggle_single_line": "切換到單行",
+    "multi_line": "多行",
+    "single_line": "單行",
+    "left": "靠左",
+    "center": "置中",
+    "right": "靠右",
+    "auto_width": "自動寬度",
+    "fixed_width": "固定寬度",
+    "bold": "粗體",
+    "italic": "斜體",
+    "underline": "底線",
+    "strikethrough": "刪除線"
+  }
 }
-

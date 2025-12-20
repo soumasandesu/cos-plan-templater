@@ -12,17 +12,17 @@ export default function DialogHintUploadHosts({ isOpen, onClose }) {
         {
             name: "ImageShack",
             url: "https://imageshack.com/",
-            description: t("upload_host_imageshack_desc")
+            description: t("dialog_hint_upload_hosts.imageshack_desc")
         },
         {
             name: "Imgur",
             url: "https://imgur.com/",
-            description: t("upload_host_imgur_desc")
+            description: t("dialog_hint_upload_hosts.imgur_desc")
         },
         {
             name: "ImgBB",
             url: "https://imgbb.com/",
-            description: t("upload_host_imgbb_desc")
+            description: t("dialog_hint_upload_hosts.imgbb_desc")
         }
     ];
 
@@ -30,13 +30,13 @@ export default function DialogHintUploadHosts({ isOpen, onClose }) {
         <div className={styles.Overlay} onClick={onClose}>
             <div className={styles.Dialog} onClick={(e) => e.stopPropagation()}>
                 <div className={styles.Header}>
-                    <h3>{t("upload_hosts_title")}</h3>
+                    <h3>{t("dialog_hint_upload_hosts.title")}</h3>
                     <button className={styles.CloseButton} onClick={onClose}>
                         ×
                     </button>
                 </div>
                 <div className={styles.Content}>
-                    <p className={styles.Description}>{t("upload_hosts_description")}</p>
+                    <p className={styles.Description}>{t("dialog_hint_upload_hosts.description")}</p>
                     <ul className={styles.HostList}>
                         {uploadHosts.map((host) => (
                             <li key={host.name} className={styles.HostItem}>

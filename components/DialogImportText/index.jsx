@@ -17,7 +17,7 @@ export default function DialogImportText({ isOpen, onClose, onImport }) {
         setError("");
         
         if (!inputText.trim()) {
-            setError(t("import_text_error_empty") || "請輸入 template 資料");
+            setError(t("dialog_import_text.error_empty") || "請輸入 template 資料");
             return;
         }
 
@@ -39,7 +39,7 @@ export default function DialogImportText({ isOpen, onClose, onImport }) {
                     const decodedJson = pako.inflate(compressed, { to: 'string' });
                     templateData = JSON.parse(decodedJson);
                 } catch (base64Error) {
-                    throw new Error(t("import_text_error_invalid") || "無法解析 template 資料，請確認格式正確");
+                    throw new Error(t("dialog_import_text.error_invalid") || "無法解析 template 資料，請確認格式正確");
                 }
             }
 
@@ -53,7 +53,7 @@ export default function DialogImportText({ isOpen, onClose, onImport }) {
             setInputText("");
             onClose();
         } catch (err) {
-            setError(err.message || t("import_text_error_unknown") || "載入失敗");
+            setError(err.message || t("dialog_import_text.error_unknown") || "載入失敗");
             console.error("Import error:", err);
         }
     };
@@ -68,13 +68,13 @@ export default function DialogImportText({ isOpen, onClose, onImport }) {
         <div className={styles.Overlay} onClick={handleClose}>
             <div className={styles.Dialog} onClick={(e) => e.stopPropagation()}>
                 <div className={styles.Header}>
-                    <h3>{t("import_text_title")}</h3>
+                    <h3>{t("dialog_import_text.title")}</h3>
                     <button className={styles.CloseButton} onClick={handleClose}>
                         ×
                     </button>
                 </div>
                 <div className={styles.Content}>
-                    <p className={styles.Description}>{t("import_text_description")}</p>
+                    <p className={styles.Description}>{t("dialog_import_text.description")}</p>
                     {error && (
                         <div className={styles.ErrorMessage}>
                             {error}
@@ -87,14 +87,14 @@ export default function DialogImportText({ isOpen, onClose, onImport }) {
                             setInputText(e.target.value);
                             setError("");
                         }}
-                        placeholder={t("import_text_placeholder")}
+                        placeholder={t("dialog_import_text.placeholder")}
                     />
                     <div className={styles.Actions}>
                         <button className={styles.ImportButton} onClick={handleImport}>
-                            {t("import_text_button")}
+                            {t("dialog_import_text.button")}
                         </button>
                         <button className={styles.CloseDialogButton} onClick={handleClose}>
-                            {t("import_text_close_button")}
+                            {t("dialog_import_text.close_button")}
                         </button>
                     </div>
                 </div>

@@ -11,7 +11,7 @@ export default function DialogExportText({ isOpen, onClose, jsonText, useBase64,
     const handleCopy = async () => {
         try {
             await navigator.clipboard.writeText(jsonText);
-            alert(t("export_text_copied") || "已複製到剪貼板！");
+            alert(t("dialog_export_text.copied") || "已複製到剪貼板！");
         } catch (err) {
             console.error("Failed to copy:", err);
             // Fallback: 選中 textarea 內容
@@ -27,20 +27,20 @@ export default function DialogExportText({ isOpen, onClose, jsonText, useBase64,
         <div className={styles.Overlay} onClick={onClose}>
             <div className={styles.Dialog} onClick={(e) => e.stopPropagation()}>
                 <div className={styles.Header}>
-                    <h3>{t("export_text_title")}</h3>
+                    <h3>{t("dialog_export_text.title")}</h3>
                     <button className={styles.CloseButton} onClick={onClose}>
                         ×
                     </button>
                 </div>
                 <div className={styles.Content}>
-                    <p className={styles.Description}>{t("export_text_description")}</p>
+                    <p className={styles.Description}>{t("dialog_export_text.description")}</p>
                     <label className={styles.CheckboxLabel}>
                         <input
                             type="checkbox"
                             checked={useBase64}
                             onChange={(e) => onUseBase64Change(e.target.checked)}
                         />
-                        {t("export_text_use_base64")}
+                        {t("dialog_export_text.use_base64")}
                     </label>
                     <textarea
                         id="export-text-textarea"
@@ -51,10 +51,10 @@ export default function DialogExportText({ isOpen, onClose, jsonText, useBase64,
                     />
                     <div className={styles.Actions}>
                         <button className={styles.CopyButton} onClick={handleCopy}>
-                            {t("export_text_copy_button")}
+                            {t("dialog_export_text.copy_button")}
                         </button>
                         <button className={styles.CloseDialogButton} onClick={onClose}>
-                            {t("export_text_close_button")}
+                            {t("dialog_export_text.close_button")}
                         </button>
                     </div>
                 </div>

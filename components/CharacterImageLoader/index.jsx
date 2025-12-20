@@ -272,7 +272,7 @@ export default function CharacterImageLoader({
                                     e.stopPropagation();
                                     actions.cloneCharacter(id);
                                 }}
-                                title={t("clone")}
+                                title={t("character_image_loader.clone")}
                             >
                                 📋
                             </button>
@@ -285,7 +285,7 @@ export default function CharacterImageLoader({
                                     e.stopPropagation();
                                     actions.removeCharacter(id);
                                 }}
-                                title={t("delete")}
+                                title={t("character_image_loader.delete")}
                             >
                                 🗑️
                             </button>
@@ -308,10 +308,10 @@ export default function CharacterImageLoader({
                                 onPointerMove={(e) => e.stopPropagation()}
                                 className={styles.RenderModeSelect}
                             >
-                                <option value="contain">{t("render_mode_contain")}</option>
-                                <option value="cover">{t("render_mode_cover")}</option>
-                                <option value="fill">{t("render_mode_fill")}</option>
-                                <option value="none">{t("render_mode_none")}</option>
+                                <option value="contain">{t("character_image_loader.render_mode_contain")}</option>
+                                <option value="cover">{t("character_image_loader.render_mode_cover")}</option>
+                                <option value="fill">{t("character_image_loader.render_mode_fill")}</option>
+                                <option value="none">{t("character_image_loader.render_mode_none")}</option>
                             </select>
                         </div>
                     </div>
