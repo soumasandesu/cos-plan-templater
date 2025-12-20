@@ -1,40 +1,6 @@
 .App {
     font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", "Heiti TC", "STHeiti", "Arial", sans-serif;
 
-    .Toolbar {
-        padding: 1rem;
-        background: #f0f0f0;
-        border-bottom: 1px solid #ccc;
-        margin-bottom: 4rem;
-
-        &, button, input, label {
-            font-size: .8rem !important;
-        }
-        button {
-            padding: 0.25em 0.5rem;
-        }
-
-        .ToolbarInner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 0 auto;
-            max-width: 800px;
-        }
-
-        > .ToolbarLeft {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        > .ToolbarRight {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-    }
-
     // Automatic generation of z-index classes from .Z0 to .Z10
     @for $i from 0 through 10 {
         .Z#{$i} {

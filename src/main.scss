@@ -1,5 +1,10 @@
-body {
+html, body {
     text-align: center;
+    background-color: #282828;
+
+    &, button, input, label {
+        font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", "Heiti TC", "STHeiti", "Segoe UI", "Arial", sans-serif;
+    }
 }
 
 @mixin ctrl($padSide: 0) {

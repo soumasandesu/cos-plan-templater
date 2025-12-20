@@ -1,0 +1,47 @@
+.Toolbar {
+    padding: 1rem;
+    background: #535353;
+    margin-bottom: 4rem;
+    color: #eee;
+
+    &, button, input, label {
+        font-size: .8rem !important;
+    }
+    button {
+        padding: 0.5rem;
+        border: {
+            width: 1px;
+            color: #999;
+            radius: 2px;
+            style: solid;
+        }
+        background: #757575;
+        color: #eee;
+
+        &:hover {
+            background: #868686;
+            color: #fff;
+        }
+    }
+
+    .ToolbarInner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 auto;
+        max-width: 800px;
+    }
+
+    .ToolbarLeft {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .ToolbarRight {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+}
+

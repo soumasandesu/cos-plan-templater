@@ -12,6 +12,7 @@ import CharacterImageLoader from "@/components/CharacterImageLoader/";
 import TextDisplay from "@/components/TextDisplay/";
 import DialogExportText from "@/components/DialogExportText/";
 import DialogImportText from "@/components/DialogImportText/";
+import Toolbar from "@/components/Toolbar/";
 
 import styles from "./styles.module.scss";
 
@@ -242,56 +243,22 @@ const App = () => {
 
 	return (
 		<div className={styles.App}>
-			<div className={styles.Toolbar}>
-				<div className={styles.ToolbarInner} style={toolbarMaxWidth > 800 ? { maxWidth: toolbarMaxWidth } : {}}>
-					<div className={styles.ToolbarLeft}>
-						<button onClick={() => actions.addTextDisplay()}>
-							{ t("add_text") }
-						</button>
-						&nbsp;
-						<button onClick={() => actions.addCharacter()}>
-							{ t("add_character_image") }
-						</button>
-						&nbsp;
-						<button
-							id="save"
-							onClick={saveImage}
-							disabled={!state.background.imageSrc}
-						>
-							{ t("save_image") }
-						</button>
-					</div>
-					<div className={styles.ToolbarRight}>
-						<label style={{ display: "inline-flex", alignItems: "center", gap: "0.4em" }}>
-							<input
-								type="checkbox"
-								id="showUnrenderedStyles"
-								checked={showUnrenderedStyles}
-								onChange={e => setShowUnrenderedStyles(e.target.checked)}
-							/>
-							{ t("toggle_unrendered_styles") }
-						</label>
-						&nbsp;
-						<button 
-							onClick={exportTemplate}
-							disabled={state.background.imageSrc && state.background.imageSrc.startsWith("data:")}
-							title={(state.background.imageSrc && state.background.imageSrc.startsWith("data:")) 
-								? t("export_url_disabled_tooltip") 
-								: t("export_url")}
-						>
-							{ t("export_url")}
-						</button>
-						&nbsp;
-						<button onClick={exportAsText}>
-							{ t("export_text") }
-						</button>
-						&nbsp;
-						<button onClick={() => setShowImportTextDialog(true)}>
-							{ t("import_text") }
-						</button>
-					</div>
-				</div>
-			</div>
+			<Toolbar
+				onAddText={() => actions.addTextDisplay()}
+				onAddCharacter={() => actions.addCharacter()}
+				onSaveImage={saveImage}
+				showUnrenderedStyles={showUnrenderedStyles}
+				onToggleUnrenderedStyles={setShowUnrenderedStyles}
+				onExportUrl={exportTemplate}
+				onExportText={exportAsText}
+				onImportText={() => setShowImportTextDialog(true)}
+				isSaveDisabled={!state.background.imageSrc}
+				exportUrlDisabled={state.background.imageSrc && state.background.imageSrc.startsWith("data:")}
+				exportUrlTooltip={(state.background.imageSrc && state.background.imageSrc.startsWith("data:")) 
+					? t("export_url_disabled_tooltip") 
+					: t("export_url")}
+				maxWidth={toolbarMaxWidth}
+			/>
 			
 		    <ImageCardBackground
 				id="drawer"
