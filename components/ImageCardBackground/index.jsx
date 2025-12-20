@@ -106,6 +106,9 @@ export default function ImageCardBackground({
     async function handleHiddenImageLoad(e) {
         const img = e.target;
         
+        // 清除之前的錯誤
+        actions.clearBackgroundImageError();
+        
         // 如果係 data URL，直接使用，唔需要轉換
         if (state.background.imageSrc && state.background.imageSrc.startsWith("data:")) {
             setBlobImageSrc(state.background.imageSrc);
@@ -121,6 +124,13 @@ export default function ImageCardBackground({
             // 如果轉換失敗，使用原始 URL
             setBlobImageSrc(state.background.imageSrc);
         }
+    }
+
+    // 處理 hidden img 載入錯誤
+    function handleHiddenImageError(e) {
+        const errorMessage = t("background_image_load_error") || "圖片載入失敗";
+        actions.setBackgroundImageError(errorMessage);
+        console.error("Background image load error:", e);
     }
 
     // 當 imageSrc 或 google_drive_file_id 改變時，重置 blobImageSrc
@@ -174,6 +184,7 @@ export default function ImageCardBackground({
                     src={state.background.imageSrc}
                     crossOrigin="anonymous"
                     onLoad={handleHiddenImageLoad}
+                    onError={handleHiddenImageError}
                     alt=""
                     style={{ display: "none" }}
                 />
@@ -186,6 +197,7 @@ export default function ImageCardBackground({
                     src={`https://lh3.googleusercontent.com/d/${state.background.google_drive_file_id}=w1000?authuser=0`}
                     crossOrigin="anonymous"
                     onLoad={handleHiddenImageLoad}
+                    onError={handleHiddenImageError}
                     alt=""
                     style={{ display: "none" }}
                 />

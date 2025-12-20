@@ -8,6 +8,7 @@ const initialState = {
         type: null, // "file", "url", "google_drive"
         google_drive_file_id: null, // Google Drive file ID
         imageOrder: "bottom", // top, bottom
+        imageLoadError: null, // 圖片載入錯誤訊息
     },
     
     // CharacterImageLoader 列表
@@ -25,6 +26,8 @@ const ActionTypes = {
     // Background
     SET_BACKGROUND_IMAGE: "SET_BACKGROUND_IMAGE",
     SET_BACKGROUND_IMAGE_ORDER: "SET_BACKGROUND_IMAGE_ORDER",
+    SET_BACKGROUND_IMAGE_ERROR: "SET_BACKGROUND_IMAGE_ERROR",
+    CLEAR_BACKGROUND_IMAGE_ERROR: "CLEAR_BACKGROUND_IMAGE_ERROR",
     
     // Characters
     ADD_CHARACTER: "ADD_CHARACTER",
@@ -56,11 +59,37 @@ function templateReducer(state, action) {
                     ...state.background,
                     imageSrc: action.payload.imageSrc,
                     type: action.payload.type,
-                    google_drive_file_id: action.payload.google_drive_file_id || null
+                    google_drive_file_id: action.payload.google_drive_file_id || null,
+                    imageLoadError: null // 設置新圖片時清除錯誤
                 }
             };
             
         case ActionTypes.SET_BACKGROUND_IMAGE_ORDER:
+            return {
+                ...state,
+                background: {
+                    ...state.background,
+                    imageOrder: action.payload
+                }
+            };
+            
+        case ActionTypes.SET_BACKGROUND_IMAGE_ERROR:
+            return {
+                ...state,
+                background: {
+                    ...state.background,
+                    imageLoadError: action.payload
+                }
+            };
+            
+        case ActionTypes.CLEAR_BACKGROUND_IMAGE_ERROR:
+            return {
+                ...state,
+                background: {
+                    ...state.background,
+                    imageLoadError: null
+                }
+            };
             return {
                 ...state,
                 background: {
@@ -224,6 +253,14 @@ export function TemplateProvider({ children }) {
 
         setBackgroundImageOrder: useCallback((imageOrder) => {
             dispatch({ type: ActionTypes.SET_BACKGROUND_IMAGE_ORDER, payload: imageOrder });
+        }, []),
+        
+        setBackgroundImageError: useCallback((errorMessage) => {
+            dispatch({ type: ActionTypes.SET_BACKGROUND_IMAGE_ERROR, payload: errorMessage });
+        }, []),
+        
+        clearBackgroundImageError: useCallback(() => {
+            dispatch({ type: ActionTypes.CLEAR_BACKGROUND_IMAGE_ERROR });
         }, []),
         
         // Characters

@@ -63,6 +63,7 @@
   "underline": "底線",
   "strikethrough": "刪除線",
   "enter_text": "輸入文字",
-  "clear_background": "清空背景"
+  "clear_background": "清空背景",
+  "background_image_load_error": "圖片載入失敗"
 }
 

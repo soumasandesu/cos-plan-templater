@@ -63,6 +63,7 @@
   "underline": "Underline",
   "strikethrough": "Strikethrough",
   "enter_text": "Enter Text",
-  "clear_background": "Clear Background"
+  "clear_background": "Clear Background",
+  "background_image_load_error": "Failed to load image"
 }
 
