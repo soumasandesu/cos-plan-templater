@@ -72,6 +72,7 @@
     "render_mode_cover": "覆蓋",
     "render_mode_fill": "填滿",
     "render_mode_none": "原始大小",
+    "border_radius": "圓角",
     "clone": "複製",
     "delete": "刪除"
   },

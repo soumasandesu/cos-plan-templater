@@ -42,7 +42,8 @@ export default function CharacterImageLoader({
         position: { x: 0, y: 0 },
         size: { width: 400, height: 400 },
         imageDataUrl: null,
-        imageRenderMode: "contain"
+        imageRenderMode: "contain",
+        borderRadius: 0
     };
 
     const [image, setImage] = useState(null);
@@ -236,7 +237,8 @@ export default function CharacterImageLoader({
             )}
             style={{
                 transform: `translate(${character.position.x}px, ${character.position.y}px)`,
-                cursor: isDragging ? "grabbing" : "grab"
+                cursor: isDragging ? "grabbing" : "grab",
+                borderRadius: `${character.borderRadius || 0}px`,
             }}
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
@@ -249,12 +251,19 @@ export default function CharacterImageLoader({
                     {index}
                 </div>
             )}
-            <canvas
-                className={styles.ShapedCanvas}
-                ref={canvas}
-                width={character.size.width}
-                height={character.size.height}
-            />
+            <div
+                style={{
+                    borderRadius: `${character.borderRadius || 0}px`,
+                    overflow: "hidden"
+                }}
+            >
+                <canvas
+                    className={styles.ShapedCanvas}
+                    ref={canvas}
+                    width={character.size.width}
+                    height={character.size.height}
+                />
+            </div>
             {isSelected && (
                 <>
                     <div
@@ -313,6 +322,27 @@ export default function CharacterImageLoader({
                                 <option value="fill">{t("character_image_loader.render_mode_fill")}</option>
                                 <option value="none">{t("character_image_loader.render_mode_none")}</option>
                             </select>
+                        </div>
+                        <div className={styles.ControlRow}>
+                            <label className={styles.BorderRadiusLabel}>
+                                <span className={styles.BorderRadiusLabelText}>
+                                    {t("character_image_loader.border_radius")}:
+                                </span>
+                                <input
+                                    type="number"
+                                    className={styles.BorderRadiusInput}
+                                    min="0"
+                                    max="200"
+                                    step="1"
+                                    value={character.borderRadius || 0}
+                                    onChange={(e) => {
+                                        const value = parseInt(e.target.value, 10) || 0;
+                                        actions.updateCharacter(id, { borderRadius: value });
+                                    }}
+                                    onPointerDown={(e) => e.stopPropagation()}
+                                    onPointerMove={(e) => e.stopPropagation()}
+                                />
+                            </label>
                         </div>
                     </div>
                 </>

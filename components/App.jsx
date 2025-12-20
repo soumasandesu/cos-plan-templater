@@ -85,7 +85,8 @@ const App = () => {
 				position: char.position,
 				size: char.size,
 				imageDataUrl: char.imageDataUrl,
-				imageRenderMode: char.imageRenderMode || "contain"
+				imageRenderMode: char.imageRenderMode || "contain",
+				borderRadius: char.borderRadius || 0
 			})),
 			texts: state.texts.map(text => ({
 				id: text.id,
@@ -145,7 +146,8 @@ const App = () => {
 				position: char.position,
 				size: char.size,
 				imageDataUrl: char.imageDataUrl,
-				imageRenderMode: char.imageRenderMode || "contain"
+				imageRenderMode: char.imageRenderMode || "contain",
+				borderRadius: char.borderRadius || 0
 			})),
 			texts: state.texts.map(text => ({
 				id: text.id,

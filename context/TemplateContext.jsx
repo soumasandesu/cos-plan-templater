@@ -106,7 +106,8 @@ function templateReducer(state, action) {
                     position: { x: 0, y: 0 },
                     size: { width: 400, height: 400 },
                     imageDataUrl: null,
-                    imageRenderMode: "contain" // contain, cover, fill, none
+                    imageRenderMode: "contain", // contain, cover, fill, none
+                    borderRadius: 0 // border radius in pixels
                 }],
             };
             

@@ -72,6 +72,7 @@
     "render_mode_cover": "Cover",
     "render_mode_fill": "Fill",
     "render_mode_none": "None",
+    "border_radius": "Border Radius",
     "clone": "Clone",
     "delete": "Delete"
   },
