@@ -4,6 +4,7 @@
     padding: 0;
     position: relative;
     margin: 2px;
+    background: #fff;
 
     &:not(:has(img:global(#blob-img))) {
         min-width: 800px;
