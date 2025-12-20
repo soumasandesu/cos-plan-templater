@@ -2,10 +2,22 @@
     display: inline-block;
     margin: 0;
     padding: 0;
-    min-width: 500px;
-    min-height: 280px;
     position: relative;
-    border: 2px #aaa solid;
+    margin: 2px;
+
+    &:not(:has(img:global(#blob-img))) {
+        min-width: 800px;
+        min-height: 600px;
+    }
+
+    &.Bordered {
+        margin: 0;
+        border: 2px #aaa solid;
+
+        > .Toolbar {
+            right: -2px;
+        }
+    }
 
     &.CheckerBackground {
         --color-1: #fff;
@@ -38,7 +50,7 @@
 
     > .Toolbar {
         position: absolute;
-        right: -2px;
+        right: 0;
         top: -36px;
         background: #aaa;
         border-radius: 0.5rem 0.5rem 0 0;

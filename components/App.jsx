@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { originalToUrl, urlToOriginal } from "compact-base64";
 import pako from "pako";
 import FileSaver from "file-saver";
-import Dom2Image from 'dom-to-image';
+import Dom2Image from 'dom-to-image-more';
 
 import { useTemplate } from "@/context/TemplateContext";
 import ImageCardBackground from "@/components/ImageCardBackground/";
@@ -56,24 +56,19 @@ const App = () => {
 	}, [state.selectedId, actions]);
 
 	async function saveImage() {
-		setShowUnrenderedStyles(true);
+		setShowUnrenderedStyles(false);
 		// 清除 selected，隱藏所有 borders 同 toolbars
 		actions.setSelectedId(null);
 		
 		// 等待一下確保 DOM 更新
 		await new Promise(resolve => setTimeout(resolve, 100));
-		
-		const otherDivs = document.querySelectorAll(".app > *:not(.drawer)");
-
-		otherDivs.forEach(e => e.style.display = "none");
 
 		const dataUrl = await Dom2Image.toPng(drawer.current, {
 			quality: .95,
 		});
 
 		FileSaver.saveAs(dataUrl, `${t("_out_filename")}.jpg`);
-		otherDivs.forEach(e => e.style.display = "");
-		setShowUnrenderedStyles(false);
+		setShowUnrenderedStyles(true);
 	}
 
 	function exportTemplate() {

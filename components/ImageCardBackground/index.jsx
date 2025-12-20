@@ -124,6 +124,7 @@ export default function ImageCardBackground({
 		<div
             className={ClassNames(styles.ImageCardBackground, {
                 [styles.CheckerBackground]: showUnrenderedStyles,
+                [styles.Bordered]: showUnrenderedStyles,
             },
             className,
         )}
@@ -149,6 +150,7 @@ export default function ImageCardBackground({
             {/* 顯示用嘅 img，用 blob URL 或 data URL */}
             {blobImageSrc && (
                 <img
+                    id="blob-img"
                     className={ClassNames({
                         imgClassName,
                         [styles.SeeThrough]: state.background.imageOrder === "before_characters",
