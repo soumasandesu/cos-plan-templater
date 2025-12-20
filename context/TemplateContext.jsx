@@ -5,7 +5,6 @@ const initialState = {
     // 背景設定
     background: {
         imageSrc: null, // dataUrl/base64
-        size: { width: 1280, height: 720 }, // 背景顯示 size
         imageOrder: "bottom" // top, bottom
     },
     
@@ -23,7 +22,6 @@ const initialState = {
 const ActionTypes = {
     // Background
     SET_BACKGROUND_IMAGE: "SET_BACKGROUND_IMAGE",
-    SET_BACKGROUND_SIZE: "SET_BACKGROUND_SIZE",
     SET_BACKGROUND_IMAGE_ORDER: "SET_BACKGROUND_IMAGE_ORDER",
     
     // Characters
@@ -55,15 +53,6 @@ function templateReducer(state, action) {
                 background: {
                     ...state.background,
                     imageSrc: action.payload
-                }
-            };
-            
-        case ActionTypes.SET_BACKGROUND_SIZE:
-            return {
-                ...state,
-                background: {
-                    ...state.background,
-                    size: action.payload
                 }
             };
             
@@ -220,10 +209,6 @@ export function TemplateProvider({ children }) {
         // Background
         setBackgroundImage: useCallback((imageSrc) => {
             dispatch({ type: ActionTypes.SET_BACKGROUND_IMAGE, payload: imageSrc });
-        }, []),
-        
-        setBackgroundSize: useCallback((size) => {
-            dispatch({ type: ActionTypes.SET_BACKGROUND_SIZE, payload: size });
         }, []),
 
         setBackgroundImageOrder: useCallback((imageOrder) => {

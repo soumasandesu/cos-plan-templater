@@ -76,8 +76,7 @@ const App = () => {
 		// 收集所有 template 數據
 		const templateData = {
 			background: {
-				imageSrc: state.background.imageSrc,
-				size: state.background.size
+				imageSrc: state.background.imageSrc
 			},
 			characters: state.characters.map(char => ({
 				id: char.id,
