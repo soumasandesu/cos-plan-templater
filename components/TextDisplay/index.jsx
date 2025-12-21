@@ -352,7 +352,7 @@ export default function TextDisplay({
                     whiteSpace: textData.inputType === "multi" ? "pre-wrap" : "nowrap"
                 }}
             >
-                {textData.text || t("text_display.enter_text")}
+                {textData.text || (showUnrenderedStyles ? t("text_display.enter_text") : "")}
             </div>
             {isSelected && textData.widthMode === "fixed" && (
                 <div

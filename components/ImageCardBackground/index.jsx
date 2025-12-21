@@ -144,7 +144,7 @@ export default function ImageCardBackground({
         
         // 如果係 Google Drive，需要載入圖片
         if (state.background.type === "google_drive" && state.background.google_drive_file_id) {
-            const googleDriveUrl = `https://lh3.googleusercontent.com/d/${state.background.google_drive_file_id}=w1000?authuser=0`;
+            const googleDriveUrl = `https://lh3.googleusercontent.com/d/${state.background.google_drive_file_id}?authuser=0`;
             // 觸發 hidden img 載入
             if (hiddenImgRef.current) {
                 hiddenImgRef.current.src = googleDriveUrl;
@@ -194,7 +194,7 @@ export default function ImageCardBackground({
             {state.background.type === "google_drive" && state.background.google_drive_file_id && (
                 <img
                     ref={hiddenImgRef}
-                    src={`https://lh3.googleusercontent.com/d/${state.background.google_drive_file_id}=w1000?authuser=0`}
+                    src={`https://lh3.googleusercontent.com/d/${state.background.google_drive_file_id}?authuser=0`}
                     crossOrigin="anonymous"
                     onLoad={handleHiddenImageLoad}
                     onError={handleHiddenImageError}
@@ -209,7 +209,7 @@ export default function ImageCardBackground({
                     id="blob-img"
                     className={ClassNames({
                         imgClassName,
-                        [styles.SeeThrough]: state.background.imageOrder === "before_characters",
+                        [styles.SeeThrough]: showUnrenderedStyles && state.background.imageOrder === "before_characters",
                     })}
                     src={blobImageSrc}
                     alt=""
@@ -223,9 +223,9 @@ export default function ImageCardBackground({
                     id="google-drive-img"
                     className={ClassNames({
                         imgClassName,
-                        [styles.SeeThrough]: state.background.imageOrder === "before_characters",
+                        [styles.SeeThrough]: showUnrenderedStyles && state.background.imageOrder === "before_characters",
                     })}
-                    src={`https://lh3.googleusercontent.com/d/${state.background.google_drive_file_id}=w1000?authuser=0`}
+                    src={`https://lh3.googleusercontent.com/d/${state.background.google_drive_file_id}?authuser=0`}
                     crossOrigin="anonymous"
                     alt=""
                     {...imgProps}
