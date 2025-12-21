@@ -78,7 +78,8 @@ const App = () => {
 			background: {
 				imageSrc: state.background.imageSrc,
 				type: state.background.type,
-				google_drive_file_id: state.background.google_drive_file_id
+				google_drive_file_id: state.background.google_drive_file_id,
+				imageOrder: state.background.imageOrder,
 			},
 			characters: state.characters.map(char => ({
 				id: char.id,
@@ -139,7 +140,7 @@ const App = () => {
 				imageSrc: state.background.imageSrc,
 				type: state.background.type,
 				google_drive_file_id: state.background.google_drive_file_id,
-				size: state.background.size
+				imageOrder: state.background.imageOrder,
 			},
 			characters: state.characters.map(char => ({
 				id: char.id,
