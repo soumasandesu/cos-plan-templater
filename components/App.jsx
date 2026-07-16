@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect, useCallback } from 'react';
 import ClassNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { originalToUrl, urlToOriginal } from "compact-base64";
-import pako from "pako";
 import FileSaver from "file-saver";
 import Dom2Image from 'dom-to-image-more';
 
@@ -24,7 +23,6 @@ const App = () => {
 	const [showUnrenderedStyles, setShowUnrenderedStyles] = useState(true);
 	const [showExportTextDialog, setShowExportTextDialog] = useState(false);
 	const [exportText, setExportText] = useState("");
-	const [useBase64, setUseBase64] = useState(true);
 	const [showImportTextDialog, setShowImportTextDialog] = useState(false);
 
 	// 收集所有 component refs
@@ -103,19 +101,8 @@ const App = () => {
 		setShowExportTextDialog(true);
 	}
 
-	function handleUseBase64Change(newValue) {
-		setUseBase64(newValue);
-		// 當 checkbox 改變時，重新計算 export text
-		const text = computeExportText(newValue);
-		setExportText(text);
-	}
-
-	function handleImportTemplate(urlBase64String) {
+	function handleImportTemplate(templateData) {
 		try {
-			const base64String = urlToOriginal(urlBase64String);
-			const codedText = new TextDecoder().decode(Uint8Array.fromBase64(base64String));
-			const templateData = deserializePayload(codedText);
-
 			// 載入 template
 			actions.loadTemplate(templateData);
 			alert(t("dialog_import_text.success") || "Template 載入成功！");
@@ -217,8 +204,6 @@ const App = () => {
 				isOpen={showExportTextDialog}
 				onClose={() => setShowExportTextDialog(false)}
 				jsonText={exportText}
-				useBase64={useBase64}
-				onUseBase64Change={handleUseBase64Change}
 			/>
 			<DialogImportText
 				isOpen={showImportTextDialog}

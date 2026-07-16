@@ -23,8 +23,7 @@
     "description": "The following is the JSON data of the template. You can copy it to save or share:",
     "copy_button": "Copy",
     "close_button": "Close",
-    "copied": "Copied to clipboard!",
-    "use_base64": "Use Base64 compression (Pako)"
+    "copied": "Copied to clipboard!"
   },
   
   "dialog_import_text": {

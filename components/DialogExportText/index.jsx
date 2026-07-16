@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import styles from "./styles.module.scss";
 
-export default function DialogExportText({ isOpen, onClose, jsonText, useBase64, onUseBase64Change }) {
+export default function DialogExportText({ isOpen, onClose, jsonText }) {
     const { t } = useTranslation();
 
     if (!isOpen) {
@@ -34,14 +34,6 @@ export default function DialogExportText({ isOpen, onClose, jsonText, useBase64,
                 </div>
                 <div className={styles.Content}>
                     <p className={styles.Description}>{t("dialog_export_text.description")}</p>
-                    <label className={styles.CheckboxLabel}>
-                        <input
-                            type="checkbox"
-                            checked={useBase64}
-                            onChange={(e) => onUseBase64Change(e.target.checked)}
-                        />
-                        {t("dialog_export_text.use_base64")}
-                    </label>
                     <textarea
                         id="export-text-textarea"
                         className={styles.TextArea}

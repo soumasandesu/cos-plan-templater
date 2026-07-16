@@ -23,8 +23,7 @@
     "description": "以下係 template 嘅 JSON 資料，你可以複製後保存或分享：",
     "copy_button": "複製",
     "close_button": "關閉",
-    "copied": "已複製到剪貼板！",
-    "use_base64": "使用 Base64 壓縮 (Pako)"
+    "copied": "已複製到剪貼板！"
   },
   
   "dialog_import_text": {

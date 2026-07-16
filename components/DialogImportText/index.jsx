@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { urlToOriginal } from "compact-base64";
-import pako from "pako";
 import styles from "./styles.module.scss";
 import { deserialize as deserializePayload } from "../../util/templateSerializerDeserializer";
 
@@ -30,8 +29,7 @@ export default function DialogImportText({ isOpen, onClose, onImport }) {
             try {
                 // 使用 compact-base64 以 URL-safe base64 解碼
                 const base64String = urlToOriginal(urlBase64String);
-                const deflatedText = new TextDecoder().decode(Uint8Array.fromBase64(base64String));
-                const codedText = pako.inflate(deflatedText, { to: 'string' });
+                const codedText = new TextDecoder().decode(Uint8Array.fromBase64(base64String));
                 templateData = deserializePayload(codedText);
             } catch (base64Error) {
                 throw new Error(t("dialog_import_text.error_invalid") || "無法解析 template 資料，請確認格式正確");
