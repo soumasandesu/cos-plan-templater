@@ -15,6 +15,7 @@ import DialogImportText from "@/components/DialogImportText/";
 import Toolbar from "@/components/Toolbar/";
 
 import styles from "./styles.module.scss";
+import { serialize as serializeTemplateData, deserialize as deserializePayload } from '../util/templateSerializerDeserializer';
 
 const App = () => {
 	const { t } = useTranslation();
@@ -22,34 +23,34 @@ const App = () => {
 	const drawer = useRef();
 	const [showUnrenderedStyles, setShowUnrenderedStyles] = useState(true);
 	const [showExportTextDialog, setShowExportTextDialog] = useState(false);
-	const [exportTextJson, setExportTextJson] = useState("");
+	const [exportText, setExportText] = useState("");
 	const [useBase64, setUseBase64] = useState(true);
 	const [showImportTextDialog, setShowImportTextDialog] = useState(false);
-	
+
 	// 收集所有 component refs
 	const componentRefs = useRef(new Map()); // id -> ref
-	
+
 	const registerRef = useCallback((id, ref) => {
 		componentRefs.current.set(id, ref);
 	}, []);
-	
+
 	const unregisterRef = useCallback((id) => {
 		componentRefs.current.delete(id);
 	}, []);
-	
+
 	// Document click handler 檢查點擊係咪喺 component 外部
 	useEffect(() => {
 		function handleDocumentClick(e) {
 			// 檢查點擊係咪喺任何 component 內部
 			const clickedInsideComponent = Array.from(componentRefs.current.values())
 				.some(ref => ref.current && ref.current.contains(e.target));
-			
+
 			// 如果點擊喺 component 外部，且有 selected component，就清除 selected
 			if (!clickedInsideComponent && state.selectedId) {
 				actions.setSelectedId(null);
 			}
 		}
-		
+
 		document.addEventListener('click', handleDocumentClick);
 		return () => {
 			document.removeEventListener('click', handleDocumentClick);
@@ -60,7 +61,7 @@ const App = () => {
 		setShowUnrenderedStyles(false);
 		// 清除 selected，隱藏所有 borders 同 toolbars
 		actions.setSelectedId(null);
-		
+
 		// 等待一下確保 DOM 更新
 		await new Promise(resolve => setTimeout(resolve, 100));
 
@@ -73,53 +74,8 @@ const App = () => {
 	}
 
 	function exportTemplate() {
-		// 收集所有 template 數據
-		const templateData = {
-			background: {
-				imageSrc: state.background.imageSrc,
-				type: state.background.type,
-				google_drive_file_id: state.background.google_drive_file_id,
-				imageOrder: state.background.imageOrder,
-			},
-			characters: state.characters.map(char => ({
-				id: char.id,
-				position: char.position,
-				size: char.size,
-				imageDataUrl: char.imageDataUrl,
-				imageRenderMode: char.imageRenderMode || "contain",
-				borderRadius: char.borderRadius || 0
-			})),
-			texts: state.texts.map(text => ({
-				id: text.id,
-				position: text.position,
-				text: text.text,
-				fontFamily: text.fontFamily,
-				fontSize: text.fontSize,
-				isBold: text.isBold,
-				isItalic: text.isItalic,
-				isUnderline: text.isUnderline,
-				isStrikethrough: text.isStrikethrough,
-				color: text.color,
-				textAlign: text.textAlign || "left",
-				widthMode: text.widthMode || "auto",
-				width: text.width || 200,
-				inputType: text.inputType || "single"
-			}))
-		};
+		const encodedData = computeExportText();
 
-		// 轉換成 JSON，壓縮，然後以 URL-safe base64 encode
-		const jsonString = JSON.stringify(templateData);
-		// 用 pako.deflate 壓縮（返回 Uint8Array）
-		const compressed = pako.deflate(jsonString);
-		// 將 Uint8Array 轉成 base64 string（用 chunk 方式避免 stack overflow）
-		let binaryString = '';
-		for (let i = 0; i < compressed.length; i += 8192) {
-			binaryString += String.fromCharCode.apply(null, compressed.slice(i, i + 8192));
-		}
-		const base64String = btoa(binaryString);
-		// 用 compact-base64 轉成 URL-safe base64
-		const encodedData = originalToUrl(base64String);
-		
 		// 生成 URL
 		const baseUrl = window.location.origin + window.location.pathname;
 		const url = `${baseUrl}?template=${encodedData}`;
@@ -134,66 +90,16 @@ const App = () => {
 		});
 	}
 
-	function getTemplateData() {
-		return {
-			background: {
-				imageSrc: state.background.imageSrc,
-				type: state.background.type,
-				google_drive_file_id: state.background.google_drive_file_id,
-				imageOrder: state.background.imageOrder,
-			},
-			characters: state.characters.map(char => ({
-				id: char.id,
-				position: char.position,
-				size: char.size,
-				imageDataUrl: char.imageDataUrl,
-				imageRenderMode: char.imageRenderMode || "contain",
-				borderRadius: char.borderRadius || 0
-			})),
-			texts: state.texts.map(text => ({
-				id: text.id,
-				position: text.position,
-				text: text.text,
-				fontFamily: text.fontFamily,
-				fontSize: text.fontSize,
-				isBold: text.isBold,
-				isItalic: text.isItalic,
-				isUnderline: text.isUnderline,
-				isStrikethrough: text.isStrikethrough,
-				color: text.color,
-				textAlign: text.textAlign || "left",
-				widthMode: text.widthMode || "auto",
-				width: text.width || 200,
-				inputType: text.inputType || "single"
-			}))
-		};
-	}
-
-	function computeExportText(useBase64Option) {
-		const templateData = getTemplateData();
-		
-		if (useBase64Option) {
-			// 轉換成 JSON，壓縮，然後以 URL-safe base64 encode
-			const jsonString = JSON.stringify(templateData);
-			// 用 pako.deflate 壓縮（返回 Uint8Array）
-			const compressed = pako.deflate(jsonString);
-			// 將 Uint8Array 轉成 base64 string（用 chunk 方式避免 stack overflow）
-			let binaryString = '';
-			for (let i = 0; i < compressed.length; i += 8192) {
-				binaryString += String.fromCharCode.apply(null, compressed.slice(i, i + 8192));
-			}
-			const base64String = btoa(binaryString);
-			// 用 compact-base64 轉成 URL-safe base64
-			return originalToUrl(base64String);
-		} else {
-			// 轉換成格式化的 JSON string（不壓縮）
-			return JSON.stringify(templateData, null, 2);
-		}
+	function computeExportText() {
+		const codedText = serializeTemplateData(state);
+		const base64String = new TextEncoder().encode(codedText).toBase64();
+		// 用 compact-base64 轉成 URL-safe base64
+		return originalToUrl(base64String);
 	}
 
 	function exportAsText() {
 		const text = computeExportText(useBase64);
-		setExportTextJson(text);
+		setExportText(text);
 		setShowExportTextDialog(true);
 	}
 
@@ -201,11 +107,16 @@ const App = () => {
 		setUseBase64(newValue);
 		// 當 checkbox 改變時，重新計算 export text
 		const text = computeExportText(newValue);
-		setExportTextJson(text);
+		setExportText(text);
 	}
 
-	function handleImportTemplate(templateData) {
+	function handleImportTemplate(urlBase64String) {
 		try {
+			const base64String = urlToOriginal(urlBase64String);
+			const codedText = new TextDecoder().decode(Uint8Array.fromBase64(base64String));
+			const templateData = deserializePayload(codedText);
+
+			// 載入 template
 			actions.loadTemplate(templateData);
 			alert(t("dialog_import_text.success") || "Template 載入成功！");
 		} catch (error) {
@@ -217,22 +128,18 @@ const App = () => {
 	// 檢查 URL query string 並載入 template
 	useEffect(() => {
 		const urlParams = new URLSearchParams(window.location.search);
-		const templateParam = urlParams.get("template");
-		
-		if (templateParam) {
+		const urlBase64String = urlParams.get("template");
+
+		if (urlBase64String) {
 			try {
 				// 使用 compact-base64 以 URL-safe base64 解碼，然後解壓縮
-				const base64String = urlToOriginal(templateParam);
-				// 將 base64 string 轉成 Uint8Array
-				const binaryString = atob(base64String);
-				const compressed = Uint8Array.from(binaryString, c => c.charCodeAt(0));
-				// 用 pako.inflate 解壓縮
-				const decodedJson = pako.inflate(compressed, { to: 'string' });
-				const templateData = JSON.parse(decodedJson);
-				
+				const base64String = urlToOriginal(urlBase64String);
+				const codedText = new TextDecoder().decode(Uint8Array.fromBase64(base64String));
+				const templateData = deserializePayload(codedText);
+
 				// 載入 template
 				actions.loadTemplate(templateData);
-				
+
 				// 清除 URL 中的 query string（可選）
 				// window.history.replaceState({}, document.title, window.location.pathname);
 			} catch (error) {
@@ -260,13 +167,13 @@ const App = () => {
 				onImportText={() => setShowImportTextDialog(true)}
 				isSaveDisabled={!state.background.imageSrc && !state.background.google_drive_file_id}
 				exportUrlDisabled={state.background.imageSrc && state.background.imageSrc.startsWith("data:")}
-				exportUrlTooltip={(state.background.imageSrc && state.background.imageSrc.startsWith("data:")) 
-					? t("toolbar.export_url_disabled_tooltip") 
+				exportUrlTooltip={(state.background.imageSrc && state.background.imageSrc.startsWith("data:"))
+					? t("toolbar.export_url_disabled_tooltip")
 					: t("toolbar.export_url")}
 				maxWidth={toolbarMaxWidth}
 			/>
-			
-		    <ImageCardBackground
+
+			<ImageCardBackground
 				id="drawer"
 				drawer={drawer}
 				showUnrenderedStyles={showUnrenderedStyles}
@@ -274,42 +181,42 @@ const App = () => {
 					className: state.background.imageOrder === "before_characters" ? styles.Z2 : styles.Z0,
 				}}
 			>
-			{
-				state.characters.map(({ id }, index) => (
-					<CharacterImageLoader 
-						className={ClassNames({
-							[styles.Z1]: state.selectedId !== id,
-							[styles.Z10]: state.selectedId === id,
-						})}
-						key={id} 
-						id={id} 
-						index={index + 1}
-						registerRef={registerRef}
-						unregisterRef={unregisterRef}
-						showUnrenderedStyles={showUnrenderedStyles}
-					/>
-				))
-			}
-			{
-				state.texts.map(({ id }) => (
-					<TextDisplay 
-						className={ClassNames({
-							[styles.Z3]: state.selectedId !== id,
-							[styles.Z10]: state.selectedId === id,
-						})}
-						key={id} 
-						id={id} 
-						registerRef={registerRef}
-						unregisterRef={unregisterRef}
-						showUnrenderedStyles={showUnrenderedStyles}
-					/>
-				))
-			}
+				{
+					state.characters.map(({ id }, index) => (
+						<CharacterImageLoader
+							className={ClassNames({
+								[styles.Z1]: state.selectedId !== id,
+								[styles.Z10]: state.selectedId === id,
+							})}
+							key={id}
+							id={id}
+							index={index + 1}
+							registerRef={registerRef}
+							unregisterRef={unregisterRef}
+							showUnrenderedStyles={showUnrenderedStyles}
+						/>
+					))
+				}
+				{
+					state.texts.map(({ id }) => (
+						<TextDisplay
+							className={ClassNames({
+								[styles.Z3]: state.selectedId !== id,
+								[styles.Z10]: state.selectedId === id,
+							})}
+							key={id}
+							id={id}
+							registerRef={registerRef}
+							unregisterRef={unregisterRef}
+							showUnrenderedStyles={showUnrenderedStyles}
+						/>
+					))
+				}
 			</ImageCardBackground>
 			<DialogExportText
 				isOpen={showExportTextDialog}
 				onClose={() => setShowExportTextDialog(false)}
-				jsonText={exportTextJson}
+				jsonText={exportText}
 				useBase64={useBase64}
 				onUseBase64Change={handleUseBase64Change}
 			/>

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { urlToOriginal } from "compact-base64";
 import pako from "pako";
 import styles from "./styles.module.scss";
+import { deserialize as deserializePayload } from "../../util/templateSerializerDeserializer";
 
 export default function DialogImportText({ isOpen, onClose, onImport }) {
     const { t } = useTranslation();
@@ -16,7 +17,8 @@ export default function DialogImportText({ isOpen, onClose, onImport }) {
     const handleImport = () => {
         setError("");
         
-        if (!inputText.trim()) {
+        const urlBase64String = inputText.trim();
+        if (!urlBase64String) {
             setError(t("dialog_import_text.error_empty") || "請輸入 template 資料");
             return;
         }
@@ -26,21 +28,13 @@ export default function DialogImportText({ isOpen, onClose, onImport }) {
 
             // 嘗試解析為 JSON
             try {
-                templateData = JSON.parse(inputText.trim());
-            } catch (jsonError) {
-                // 如果 JSON 解析失敗，嘗試作為 base64 解碼
-                try {
-                    // 使用 compact-base64 以 URL-safe base64 解碼
-                    const base64String = urlToOriginal(inputText.trim());
-                    // 將 base64 string 轉成 Uint8Array
-                    const binaryString = atob(base64String);
-                    const compressed = Uint8Array.from(binaryString, c => c.charCodeAt(0));
-                    // 用 pako.inflate 解壓縮
-                    const decodedJson = pako.inflate(compressed, { to: 'string' });
-                    templateData = JSON.parse(decodedJson);
-                } catch (base64Error) {
-                    throw new Error(t("dialog_import_text.error_invalid") || "無法解析 template 資料，請確認格式正確");
-                }
+                // 使用 compact-base64 以 URL-safe base64 解碼
+                const base64String = urlToOriginal(urlBase64String);
+                const deflatedText = new TextDecoder().decode(Uint8Array.fromBase64(base64String));
+                const codedText = pako.inflate(deflatedText, { to: 'string' });
+                templateData = deserializePayload(codedText);
+            } catch (base64Error) {
+                throw new Error(t("dialog_import_text.error_invalid") || "無法解析 template 資料，請確認格式正確");
             }
 
             // 驗證 template 結構
